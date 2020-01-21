@@ -106,7 +106,7 @@ class SoapHook implements LibraryHook
         Assertion::isCallable($requestCallback, 'No valid callback for handling requests defined.');
         self::$requestCallback = $requestCallback;
 
-        if ($this->status == self::ENABLED) {
+        if ($this->status === self::ENABLED) {
             return;
         }
 
@@ -136,7 +136,7 @@ class SoapHook implements LibraryHook
      */
     public function isEnabled(): bool
     {
-        return $this->status == self::ENABLED;
+        return $this->status === self::ENABLED;
     }
 
     /**

@@ -94,7 +94,7 @@ class CurlHook implements LibraryHook
     {
         Assertion::isCallable($requestCallback, 'No valid callback for handling requests defined.');
 
-        if (static::$status == self::ENABLED) {
+        if (static::$status === self::ENABLED) {
             return;
         }
 
@@ -112,7 +112,7 @@ class CurlHook implements LibraryHook
      */
     public function disable(): void
     {
-        if (static::$status == self::DISABLED) {
+        if (static::$status === self::DISABLED) {
             return;
         }
 
@@ -126,7 +126,7 @@ class CurlHook implements LibraryHook
      */
     public function isEnabled(): bool
     {
-        return self::$status == self::ENABLED;
+        return self::$status === self::ENABLED;
     }
 
     /**
@@ -140,7 +140,7 @@ class CurlHook implements LibraryHook
     public static function __callStatic($method, array $args)
     {
         // Call original when disabled
-        if (static::$status == self::DISABLED) {
+        if (static::$status === self::DISABLED) {
             if ($method === 'curl_multi_exec') {
                 // curl_multi_exec expects to be called with args by reference
                 // which call_user_func_array doesn't do.

@@ -70,7 +70,7 @@ class StreamWrapperHook implements LibraryHook
      */
     public function isEnabled(): bool
     {
-        return $this->status == self::ENABLED;
+        return $this->status === self::ENABLED;
     }
 
     /**
