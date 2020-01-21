@@ -9,7 +9,7 @@ namespace VCR\Example;
  */
 class ExampleSoapClient
 {
-    const EXAMPLE_WSDL = 'http://www.dataaccess.com/webservicesserver/numberconversion.wso?WSDL';
+    private const EXAMPLE_WSDL = 'http://www.dataaccess.com/webservicesserver/numberconversion.wso?WSDL';
 
     public function call($number = 12)
     {

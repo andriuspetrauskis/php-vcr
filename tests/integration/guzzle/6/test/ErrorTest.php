@@ -14,7 +14,7 @@ use VCR\Util\CurlException;
  */
 class ErrorTest extends TestCase
 {
-    const TEST_GET_URL = 'http://localhost:9959';
+    private const TEST_GET_URL = 'http://localhost:9959';
 
     public function setUp()
     {

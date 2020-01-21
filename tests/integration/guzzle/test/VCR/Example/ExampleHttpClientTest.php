@@ -10,9 +10,9 @@ use PHPUnit\Framework\TestCase;
  */
 class ExampleHttpClientTest extends TestCase
 {
-    const TEST_GET_URL = 'https://api.chew.pro/trbmb';
-    const TEST_POST_URL = 'https://httpbin.org/post';
-    const TEST_POST_BODY = '{"foo":"bar"}';
+    private const TEST_GET_URL = 'https://api.chew.pro/trbmb';
+    private const TEST_POST_URL = 'https://httpbin.org/post';
+    private const TEST_POST_BODY = '{"foo":"bar"}';
 
     protected $ignoreHeaders = [
         'Accept',

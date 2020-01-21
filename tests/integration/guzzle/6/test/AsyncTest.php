@@ -11,8 +11,8 @@ use PHPUnit\Framework\TestCase;
  */
 class AsyncTest extends TestCase
 {
-    const TEST_GET_URL = 'https://api.chew.pro/trbmb';
-    const TEST_GET_URL_2 = 'https://api.chew.pro/trbmb?foo=42';
+    private const TEST_GET_URL = 'https://api.chew.pro/trbmb';
+    private const TEST_GET_URL_2 = 'https://api.chew.pro/trbmb?foo=42';
 
     public function setUp()
     {

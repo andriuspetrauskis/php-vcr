@@ -10,8 +10,8 @@ use VCR\Util\SoapClient;
 
 class SoapClientTest extends TestCase
 {
-    const WSDL = 'https://raw.githubusercontent.com/php-vcr/php-vcr/master/tests/fixtures/soap/wsdl/weather.wsdl';
-    const ACTION = 'http://ws.cdyne.com/WeatherWS/GetCityWeatherByZIP';
+    private const WSDL = 'https://raw.githubusercontent.com/php-vcr/php-vcr/master/tests/fixtures/soap/wsdl/weather.wsdl';
+    private const ACTION = 'http://ws.cdyne.com/WeatherWS/GetCityWeatherByZIP';
 
     protected function getLibraryHookMock($enabled)
     {

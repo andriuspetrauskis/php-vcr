@@ -6,7 +6,7 @@ use VCR\Util\Assertion;
 
 class SoapCodeTransform extends AbstractCodeTransform
 {
-    const NAME = 'vcr_soap';
+    public const NAME = 'vcr_soap';
 
     private static $replacements = [
         'new \VCR\Util\SoapClient(',
