@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use VCR\Exceptions\InvalidHostException;
 use VCR\Request;
 use VCR\Response;
+use VCR\VCRException;
 
 class CurlHelperTest extends TestCase
 {
@@ -168,7 +169,7 @@ class CurlHelperTest extends TestCase
 
     public function testSetCurlOptionReadFunctionMissingSize()
     {
-        $this->expectException('\VCR\VCRException', 'To set a CURLOPT_READFUNCTION, CURLOPT_INFILESIZE must be set.');
+        $this->expectException(VCRException::class, 'To set a CURLOPT_READFUNCTION, CURLOPT_INFILESIZE must be set.');
         $request = new Request('POST', 'http://example.com');
 
         $callback = function ($curlHandle, $fileHandle, $size) {

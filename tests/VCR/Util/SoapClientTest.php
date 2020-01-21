@@ -15,7 +15,7 @@ class SoapClientTest extends TestCase
 
     protected function getLibraryHookMock($enabled)
     {
-        $hookMock = $this->getMockBuilder('\VCR\LibraryHooks\SoapHook')
+        $hookMock = $this->getMockBuilder(SoapHook::class)
             ->disableOriginalConstructor()
             ->setMethods(['isEnabled', 'doRequest'])
             ->getMock();
@@ -81,7 +81,7 @@ class SoapClientTest extends TestCase
 
     public function testDoRequestHandlesHookDisabled()
     {
-        $client = $this->getMockBuilder('\VCR\Util\SoapClient')
+        $client = $this->getMockBuilder(SoapClient::class)
             ->disableOriginalConstructor()
             ->setMethods(['realDoRequest'])
             ->getMock();
@@ -135,11 +135,11 @@ class SoapClientTest extends TestCase
             }
         };
 
-        $this->assertInstanceOf('\VCR\LibraryHooks\SoapHook', $client->publicGetLibraryHook());
+        $this->assertInstanceOf(SoapHook::class, $client->publicGetLibraryHook());
 
         $client->setLibraryHook($this->getLibraryHookMock(true));
 
-        $this->assertInstanceOf('\VCR\LibraryHooks\SoapHook', $client->publicGetLibraryHook());
+        $this->assertInstanceOf(SoapHook::class, $client->publicGetLibraryHook());
     }
 
     public function testGetLastWhateverBeforeRequest()

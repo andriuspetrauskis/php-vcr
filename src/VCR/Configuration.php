@@ -3,6 +3,12 @@
 namespace VCR;
 
 use VCR\Util\Assertion;
+use VCR\LibraryHooks\StreamWrapperHook;
+use VCR\LibraryHooks\CurlHook;
+use VCR\LibraryHooks\SoapHook;
+use VCR\Storage\Blackhole;
+use VCR\Storage\Json;
+use VCR\Storage\Yaml;
 
 /**
  * Configuration stores a Videorecorders configuration options.
@@ -39,9 +45,9 @@ class Configuration
      * @var string[] List of library hooks.
      */
     private $availableLibraryHooks = [
-        'stream_wrapper' => 'VCR\LibraryHooks\StreamWrapperHook',
-        'curl'           => 'VCR\LibraryHooks\CurlHook',
-        'soap'           => 'VCR\LibraryHooks\SoapHook',
+        'stream_wrapper' => StreamWrapperHook::class,
+        'curl'           => CurlHook::class,
+        'soap'           => SoapHook::class,
     ];
 
     /**
@@ -65,9 +71,9 @@ class Configuration
      * @var string[] List of available storages.
      */
     private $availableStorages = [
-        'blackhole' => 'VCR\Storage\Blackhole',
-        'json'      => 'VCR\Storage\Json',
-        'yaml'      => 'VCR\Storage\Yaml',
+        'blackhole' => Blackhole::class,
+        'json'      => Json::class,
+        'yaml'      => Yaml::class,
     ];
 
     /**

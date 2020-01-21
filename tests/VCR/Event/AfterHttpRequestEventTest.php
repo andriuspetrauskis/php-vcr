@@ -20,11 +20,11 @@ class AfterHttpRequestEventTest extends TestCase
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('VCR\Request', $this->event->getRequest());
+        $this->assertInstanceOf(Request::class, $this->event->getRequest());
     }
 
     public function testGetResponse()
     {
-        $this->assertInstanceOf('VCR\Response', $this->event->getResponse());
+        $this->assertInstanceOf(Response::class, $this->event->getResponse());
     }
 }

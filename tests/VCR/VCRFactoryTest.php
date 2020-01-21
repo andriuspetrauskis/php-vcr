@@ -4,6 +4,17 @@ namespace VCR;
 
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use VCR\Videorecorder;
+use VCR\Configuration;
+use VCR\Util\StreamProcessor;
+use VCR\Util\HttpClient;
+use VCR\CodeTransform\CurlCodeTransform;
+use VCR\CodeTransform\SoapCodeTransform;
+use VCR\LibraryHooks\CurlHook;
+use VCR\LibraryHooks\SoapHook;
+use VCR\LibraryHooks\StreamWrapperHook;
+use VCR\Storage\Json;
+use VCR\Storage\Yaml;
 
 /**
  * Test instance creation.
@@ -22,15 +33,15 @@ class VCRFactoryTest extends TestCase
     public function instanceProvider()
     {
         return [
-            ['VCR\Videorecorder'],
-            ['VCR\Configuration'],
-            ['VCR\Util\StreamProcessor'],
-            ['VCR\Util\HttpClient'],
-            ['VCR\CodeTransform\CurlCodeTransform'],
-            ['VCR\CodeTransform\SoapCodeTransform'],
-            ['VCR\LibraryHooks\CurlHook'],
-            ['VCR\LibraryHooks\SoapHook'],
-            ['VCR\LibraryHooks\StreamWrapperHook'],
+            [Videorecorder::class],
+            [Configuration::class],
+            [StreamProcessor::class],
+            [HttpClient::class],
+            [CurlCodeTransform::class],
+            [SoapCodeTransform::class],
+            [CurlHook::class],
+            [SoapHook::class],
+            [StreamWrapperHook::class],
         ];
     }
 
@@ -41,8 +52,8 @@ class VCRFactoryTest extends TestCase
     {
         vfsStream::setup('test');
 
-        VCRFactory::get('VCR\Configuration')->setStorage($storage);
-        VCRFactory::get('VCR\Configuration')->setCassettePath(vfsStream::url('test/'));
+        VCRFactory::get(Configuration::class)->setStorage($storage);
+        VCRFactory::get(Configuration::class)->setCassettePath(vfsStream::url('test/'));
 
         $instance = VCRFactory::get('Storage', [rand()]);
 
@@ -52,8 +63,8 @@ class VCRFactoryTest extends TestCase
     public function storageProvider()
     {
         return [
-            ['json', 'VCR\Storage\Json'],
-            ['yaml', 'VCR\Storage\Yaml'],
+            ['json', Json::class],
+            ['yaml', Yaml::class],
         ];
     }
 }

@@ -124,7 +124,7 @@ class SoapClient extends \SoapClient
     protected function getLibraryHook(): SoapHook
     {
         if (empty($this->soapHook)) {
-            $this->soapHook = VCRFactory::get('VCR\LibraryHooks\SoapHook');
+            $this->soapHook = VCRFactory::get(SoapHook::class);
         }
 
         return $this->soapHook;

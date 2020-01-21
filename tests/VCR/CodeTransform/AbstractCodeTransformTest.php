@@ -3,6 +3,7 @@
 namespace VCR\CodeTransform;
 
 use PHPUnit\Framework\TestCase;
+use VCR\CodeTransform\AbstractCodeTransform;
 
 class AbstractCodeTransformTest extends TestCase
 {
@@ -13,7 +14,7 @@ class AbstractCodeTransformTest extends TestCase
             $methods
         );
 
-        $filter = $this->getMockBuilder('\VCR\CodeTransform\AbstractCodeTransform')
+        $filter = $this->getMockBuilder(AbstractCodeTransform::class)
             ->setMethods($defaults)
             ->getMockForAbstractClass();
 

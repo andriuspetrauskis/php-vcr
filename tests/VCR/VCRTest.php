@@ -5,6 +5,7 @@ namespace VCR;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\Event;
 use org\bovigo\vfs\vfsStream;
+use VCR\VCRException;
 
 /**
  * Test integration of PHPVCR with PHPUnit.
@@ -20,7 +21,7 @@ class VCRTest extends TestCase
     {
         VCR::configure()->enableLibraryHooks(['stream_wrapper']);
         $this->expectException(
-            'VCR\VCRException',
+            VCRException::class,
             'Please turn on VCR before inserting a cassette, use: VCR::turnOn()'
         );
         VCR::insertCassette('some_name');
@@ -129,7 +130,7 @@ class VCRTest extends TestCase
         $this->configureVirtualCassette();
 
         VCR::turnOn();
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         VCR::insertCassette('unittest_cassette1');
         throw new \InvalidArgumentException('test');
     }

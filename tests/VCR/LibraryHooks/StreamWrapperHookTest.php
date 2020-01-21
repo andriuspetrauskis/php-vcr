@@ -17,7 +17,7 @@ class StreamWrapperHookTest extends TestCase
 
         $testClass = $this;
         $streamWrapper->enable(function ($request) use ($testClass) {
-            $testClass->assertInstanceOf('\VCR\Request', $request);
+            $testClass->assertInstanceOf(Request::class, $request);
         });
         $this->assertTrue($streamWrapper->isEnabled());
     }

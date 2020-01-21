@@ -4,6 +4,7 @@ namespace VCR;
 
 use const CURLOPT_CUSTOMREQUEST;
 use PHPUnit\Framework\TestCase;
+use VCR\RequestMatcher;
 
 /**
  * Test integration of PHPVCR with PHPUnit.
@@ -49,21 +50,21 @@ class RequestTest extends TestCase
     {
         $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
 
-        $this->assertTrue($this->request->matches($request, [['VCR\RequestMatcher', 'matchMethod']]));
+        $this->assertTrue($this->request->matches($request, [[RequestMatcher::class, 'matchMethod']]));
     }
 
     public function testDoesntMatch()
     {
         $request = new Request('POST', 'http://example.com', ['User-Agent' => 'Unit-Test']);
 
-        $this->assertFalse($this->request->matches($request, [['VCR\RequestMatcher', 'matchMethod']]));
+        $this->assertFalse($this->request->matches($request, [[RequestMatcher::class, 'matchMethod']]));
     }
 
     public function testMatchesThrowsExceptionIfMatcherNotFound()
     {
         $request = new Request('POST', 'http://example.com', ['User-Agent' => 'Unit-Test']);
         $this->expectException(
-            '\BadFunctionCallException',
+            \BadFunctionCallException::class,
             "Matcher could not be executed. Array\n(\n    [0] => some\n    [1] => method\n)\n"
         );
         $this->request->matches($request, [['some', 'method']]);
@@ -217,7 +218,7 @@ class RequestTest extends TestCase
         $this->assertTrue(
             $this->request->matches(
                 Request::fromArray($request->toArray()),
-                [['VCR\RequestMatcher', 'matchBody']]
+                [[RequestMatcher::class, 'matchBody']]
             )
         );
     }
@@ -231,7 +232,7 @@ class RequestTest extends TestCase
         $this->assertFalse(
             $this->request->matches(
                 Request::fromArray($request->toArray()),
-                [['VCR\RequestMatcher', 'matchBody']]
+                [[RequestMatcher::class, 'matchBody']]
             )
         );
     }

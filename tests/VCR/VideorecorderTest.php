@@ -5,6 +5,10 @@ namespace VCR;
 use lapistano\ProxyObject\ProxyBuilder;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
+use VCR\Configuration;
+use VCR\Videorecorder;
+use VCR\Util\HttpClient;
+use VCR\Cassette;
 
 /**
  * Test Videorecorder.
@@ -14,7 +18,7 @@ class VideorecorderTest extends TestCase
     public function testCreateVideorecorder()
     {
         $this->assertInstanceOf(
-            '\VCR\Videorecorder',
+            Videorecorder::class,
             new Videorecorder(new Configuration(), new Util\HttpClient(), VCRFactory::getInstance())
         );
     }
@@ -23,10 +27,10 @@ class VideorecorderTest extends TestCase
     {
         vfsStream::setup('testDir');
         $factory = VCRFactory::getInstance();
-        $configuration = $factory->get('VCR\Configuration');
+        $configuration = $factory->get(Configuration::class);
         $configuration->setCassettePath(vfsStream::url('testDir'));
         $configuration->enableLibraryHooks([]);
-        $videorecorder = $this->getMockBuilder('\VCR\Videorecorder')
+        $videorecorder = $this->getMockBuilder(Videorecorder::class)
             ->setConstructorArgs([$configuration, new Util\HttpClient(), VCRFactory::getInstance()])
             ->setMethods(['eject'])
             ->getMock();
@@ -70,7 +74,7 @@ class VideorecorderTest extends TestCase
 
         $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
         $response = new Response(200, [], 'example response');
-        $client = $this->getMockBuilder('\VCR\Util\HttpClient')->getMock();
+        $client = $this->getMockBuilder(HttpClient::class)->getMock();
         $configuration = new Configuration();
         $configuration->enableLibraryHooks([]);
         $configuration->setMode('none');
@@ -118,7 +122,7 @@ class VideorecorderTest extends TestCase
 
         $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
         $response = new Response(200, [], 'example response');
-        $client = $this->getMockBuilder('\VCR\Util\HttpClient')->getMock();
+        $client = $this->getMockBuilder(HttpClient::class)->getMock();
         $configuration = new Configuration();
         $configuration->enableLibraryHooks([]);
         $configuration->setMode('once');
@@ -137,7 +141,7 @@ class VideorecorderTest extends TestCase
 
     protected function getClientMock($request, $response)
     {
-        $client = $this->getMockBuilder('\VCR\Util\HttpClient')->setMethods(['send'])->getMock();
+        $client = $this->getMockBuilder(HttpClient::class)->setMethods(['send'])->getMock();
         $client
             ->expects($this->once())
             ->method('send')
@@ -149,7 +153,7 @@ class VideorecorderTest extends TestCase
 
     protected function getCassetteMock($request, $response, $mode = VCR::MODE_NEW_EPISODES, $isNew = false)
     {
-        $cassette = $this->getMockBuilder('\VCR\Cassette')
+        $cassette = $this->getMockBuilder(Cassette::class)
             ->disableOriginalConstructor()
             ->setMethods(['record', 'playback', 'isNew', 'getName'])
             ->getMock();

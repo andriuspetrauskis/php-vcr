@@ -7,7 +7,7 @@ use VCR\VCRException;
 
 class Assertion extends BaseAssertion
 {
-    protected static $exceptionClass = 'VCR\VCRException';
+    protected static $exceptionClass = VCRException::class;
 
     private const INVALID_CALLABLE = 910;
 

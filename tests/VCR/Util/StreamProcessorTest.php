@@ -4,6 +4,7 @@ namespace VCR\Util;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Error\Warning;
+use VCR\Util\StreamProcessor;
 
 class StreamProcessorTest extends TestCase
 {
@@ -33,7 +34,7 @@ class StreamProcessorTest extends TestCase
      */
     public function testStreamOpenShouldAppendFilters($expected, $option, $shouldProcess = null)
     {
-        $mock = $this->getMockBuilder('VCR\Util\StreamProcessor')
+        $mock = $this->getMockBuilder(StreamProcessor::class)
             ->disableOriginalConstructor()
             ->setMethods(['intercept', 'restore', 'appendFiltersToStream', 'shouldProcess'])
             ->getMock();
@@ -192,7 +193,7 @@ class StreamProcessorTest extends TestCase
 
     protected function getStreamProcessorMock()
     {
-        return $this->getMockBuilder('VCR\Util\StreamProcessor')
+        return $this->getMockBuilder(StreamProcessor::class)
             ->disableOriginalConstructor()
             ->setMethods(['intercept', 'restore'])
             ->getMock();

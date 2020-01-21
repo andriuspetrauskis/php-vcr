@@ -19,6 +19,6 @@ class BeforeHttpRequestEventTest extends TestCase
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('VCR\Request', $this->event->getRequest());
+        $this->assertInstanceOf(Request::class, $this->event->getRequest());
     }
 }

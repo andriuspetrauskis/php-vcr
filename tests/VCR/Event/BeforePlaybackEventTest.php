@@ -25,11 +25,11 @@ class BeforePlaybackEventTest extends TestCase
 
     public function testGetRequest()
     {
-        $this->assertInstanceOf('VCR\Request', $this->event->getRequest());
+        $this->assertInstanceOf(Request::class, $this->event->getRequest());
     }
 
     public function testGetCassette()
     {
-        $this->assertInstanceOf('VCR\Cassette', $this->event->getCassette());
+        $this->assertInstanceOf(Cassette::class, $this->event->getCassette());
     }
 }
