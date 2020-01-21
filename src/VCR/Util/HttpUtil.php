@@ -53,7 +53,7 @@ class HttpUtil
         return [
             'http_version' => substr(strrchr($part[0], '/'), 1),
             'code' => $part[1],
-            'message' => isset($part[2]) ? $part[2] : ''
+            'message' => $part[2] ?? ''
         ];
     }
 

@@ -110,7 +110,7 @@ class Request
         $requestObject = new Request(
             $request['method'],
             $request['url'],
-            isset($request['headers']) ? $request['headers'] : []
+            $request['headers'] ?? []
         );
 
         if (!empty($request['post_fields']) && is_array($request['post_fields'])) {

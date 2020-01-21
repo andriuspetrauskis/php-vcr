@@ -35,8 +35,8 @@ class Yaml extends AbstractStorage
     {
         parent::__construct($cassettePath, $cassetteName, '');
 
-        $this->yamlParser = $parser ?: new Parser();
-        $this->yamlDumper = $dumper ?: new Dumper();
+        $this->yamlParser = $parser ?? new Parser();
+        $this->yamlDumper = $dumper ?? new Dumper();
     }
 
     /**

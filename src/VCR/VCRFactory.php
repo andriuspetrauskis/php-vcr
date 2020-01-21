@@ -25,7 +25,7 @@ class VCRFactory
      */
     protected function __construct(Configuration $config = null)
     {
-        $this->config = $config ?: $this->getOrCreate('VCR\Configuration');
+        $this->config = $config ?? $this->getOrCreate('VCR\Configuration');
     }
 
     /**
