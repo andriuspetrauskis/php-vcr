@@ -8,7 +8,7 @@ class CurlCodeTransform extends AbstractCodeTransform
 {
     const NAME = 'vcr_curl';
 
-    private static $patterns = array(
+    private static $patterns = [
         '/(?<!::|->|\w_)\\\?curl_init\s*\(/i'                => '\VCR\LibraryHooks\CurlHook::curl_init(',
         '/(?<!::|->|\w_)\\\?curl_exec\s*\(/i'                => '\VCR\LibraryHooks\CurlHook::curl_exec(',
         '/(?<!::|->|\w_)\\\?curl_getinfo\s*\(/i'             => '\VCR\LibraryHooks\CurlHook::curl_getinfo(',
@@ -21,7 +21,7 @@ class CurlCodeTransform extends AbstractCodeTransform
         '/(?<!::|->|\w_)\\\?curl_reset\s*\(/i'               => '\VCR\LibraryHooks\CurlHook::curl_reset(',
         '/(?<!::|->|\w_)\\\?curl_error\s*\(/i'               => '\VCR\LibraryHooks\CurlHook::curl_error(',
         '/(?<!::|->|\w_)\\\?curl_errno\s*\(/i'               => '\VCR\LibraryHooks\CurlHook::curl_errno('
-    );
+    ];
 
     /**
      * @inheritdoc

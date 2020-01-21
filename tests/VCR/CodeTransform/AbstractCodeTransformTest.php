@@ -6,10 +6,10 @@ use PHPUnit\Framework\TestCase;
 
 class AbstractCodeTransformTest extends TestCase
 {
-    protected function getFilter(array $methods = array())
+    protected function getFilter(array $methods = [])
     {
         $defaults = array_merge(
-            array('transformCode'),
+            ['transformCode'],
             $methods
         );
 

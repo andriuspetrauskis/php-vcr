@@ -28,7 +28,7 @@ class ExampleHttpClient
         $client = new Client();
         
         try {
-            $response = $client->post($url, array('body' => $body));
+            $response = $client->post($url, ['body' => $body]);
             return json_decode($response->getBody(), true);
         } catch (ClientException $e) {
             if ($e->getCode() !== 404) {

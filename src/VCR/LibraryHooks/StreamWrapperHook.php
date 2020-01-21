@@ -166,7 +166,7 @@ class StreamWrapperHook implements LibraryHook
      */
     public function stream_stat(): array
     {
-        return array();
+        return [];
     }
 
     /**
@@ -179,7 +179,7 @@ class StreamWrapperHook implements LibraryHook
 
     public function url_stat(string $path, int $flags): array
     {
-        return array();
+        return [];
     }
 
     /**

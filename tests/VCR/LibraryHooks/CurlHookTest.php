@@ -128,7 +128,7 @@ class CurlHookTest extends TestCase
         $this->curlHook->enable(
             function (Request $request) use ($testClass) {
                 $testClass->assertEquals(
-                    array('para1' => 'val1', 'para2' => 'val2'),
+                    ['para1' => 'val1', 'para2' => 'val2'],
                     $request->getPostFields(),
                     'Post query string was not parsed and set correctly.'
                 );
@@ -137,7 +137,7 @@ class CurlHookTest extends TestCase
         );
 
         $curlHandle = curl_init('http://example.com');
-        curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array('para1' => 'val1', 'para2' => 'val2'));
+        curl_setopt($curlHandle, CURLOPT_POSTFIELDS, ['para1' => 'val1', 'para2' => 'val2']);
         curl_exec($curlHandle);
         curl_close($curlHandle);
         $this->curlHook->disable();
@@ -149,7 +149,7 @@ class CurlHookTest extends TestCase
         $this->curlHook->enable(
             function (Request $request) use ($testClass) {
                 $testClass->assertEquals(
-                    array('para1' => 'val1', 'para2' => 'val2'),
+                    ['para1' => 'val1', 'para2' => 'val2'],
                     $request->getPostFields(),
                     'Post query string was not parsed and set correctly.'
                 );
@@ -160,9 +160,9 @@ class CurlHookTest extends TestCase
         $curlHandle = curl_init('http://example.com');
         curl_setopt_array(
             $curlHandle,
-            array(
-                CURLOPT_POSTFIELDS => array('para1' => 'val1', 'para2' => 'val2')
-            )
+            [
+                CURLOPT_POSTFIELDS => ['para1' => 'val1', 'para2' => 'val2']
+            ]
         );
         curl_exec($curlHandle);
         curl_close($curlHandle);
@@ -310,13 +310,13 @@ class CurlHookTest extends TestCase
 
         $this->assertEquals(2, $callCount, 'Hook should have been called twice.');
         $this->assertEquals(
-            array('msg' => 1, 'result' => 0, 'handle' => $curlHandle2),
+            ['msg' => 1, 'result' => 0, 'handle' => $curlHandle2],
             $lastInfo,
             'When called the first time curl_multi_info_read should return last curl info.'
         );
 
         $this->assertEquals(
-            array('msg' => 1, 'result' => 0, 'handle' => $curlHandle1),
+            ['msg' => 1, 'result' => 0, 'handle' => $curlHandle1],
             $secondLastInfo,
             'When called the second time curl_multi_info_read should return second to last curl info.'
         );
@@ -379,7 +379,7 @@ class CurlHookTest extends TestCase
     {
         $testClass = $this;
         return Closure::fromCallable(function () use ($statusCode, $testClass) {
-            return new Response($statusCode, array(), $testClass->expected);
+            return new Response($statusCode, [], $testClass->expected);
         });
     }
 }

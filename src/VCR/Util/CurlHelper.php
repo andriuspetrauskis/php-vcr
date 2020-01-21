@@ -13,7 +13,7 @@ class CurlHelper
     /**
      * @var array List of cURL info constants.
      */
-    private static $curlInfoList = array(
+    private static $curlInfoList = [
         //"certinfo"?
         CURLINFO_HTTP_CODE => 'http_code',
         CURLINFO_EFFECTIVE_URL => 'url',
@@ -36,7 +36,7 @@ class CurlHelper
         CURLINFO_CONTENT_LENGTH_DOWNLOAD => 'download_content_length',
         CURLINFO_CONTENT_LENGTH_UPLOAD => 'upload_content_length',
         CURLINFO_CONTENT_TYPE => 'content_type'
-    );
+    ];
 
     /**
      * Outputs a response depending on the set cURL option.
@@ -56,7 +56,7 @@ class CurlHelper
     {
         // If there is a header function set, feed the http status and headers to it.
         if (isset($curlOptions[CURLOPT_HEADERFUNCTION])) {
-            $headerList = array(HttpUtil::formatAsStatusString($response));
+            $headerList = [HttpUtil::formatAsStatusString($response)];
             $headerList = array_merge($headerList, HttpUtil::formatHeadersForCurl($response->getHeaders()));
             $headerList[] = '';
             foreach ($headerList as $header) {
@@ -97,7 +97,7 @@ class CurlHelper
     {
         switch ($option) {
             case 0: // 0 == array of all curl options
-                $info = array();
+                $info = [];
                 foreach (self::$curlInfoList as $option => $key) {
                     $info[$key] = $response->getCurlInfo($key);
                 }
@@ -210,7 +210,7 @@ class CurlHelper
         
         $bodySize = $request->getCurlOption(CURLOPT_INFILESIZE);
         Assertion::notEmpty($bodySize, 'To set a CURLOPT_READFUNCTION, CURLOPT_INFILESIZE must be set.');
-        $body = call_user_func_array($readFunction, array($curlHandle, fopen('php://memory', 'r'), $bodySize));
+        $body = call_user_func_array($readFunction, [$curlHandle, fopen('php://memory', 'r'), $bodySize]);
         $request->setBody($body);
     }
 }

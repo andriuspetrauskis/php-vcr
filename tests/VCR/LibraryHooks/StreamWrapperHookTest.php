@@ -33,7 +33,7 @@ class StreamWrapperHookTest extends TestCase
     {
         $hook = new StreamWrapperHook();
         $hook->enable(function ($request) {
-            return new Response(200, array(), 'A Test');
+            return new Response(200, [], 'A Test');
         });
         $hook->stream_open('http://example.com', 'r', 0, $openedPath);
 

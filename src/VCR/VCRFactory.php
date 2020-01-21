@@ -14,7 +14,7 @@ class VCRFactory
      **/
     protected $config;
 
-    protected $mapping = array();
+    protected $mapping = [];
 
     protected static $instance;
 
@@ -98,7 +98,7 @@ class VCRFactory
      *
      * @return mixed An instance for specified class name and parameters.
      */
-    public static function get(string $className, array $params = array())
+    public static function get(string $className, array $params = [])
     {
         return self::getInstance()->getOrCreate($className, $params);
     }
@@ -111,7 +111,7 @@ class VCRFactory
      *
      * @return mixed
      */
-    public function getOrCreate(string $className, array $params = array())
+    public function getOrCreate(string $className, array $params = [])
     {
         $key = $className . join('-', $params);
 
@@ -120,7 +120,7 @@ class VCRFactory
         }
 
         if (method_exists($this, $this->getMethodName($className))) {
-            $callback = array($this, $this->getMethodName($className));
+            $callback = [$this, $this->getMethodName($className)];
             $instance =  call_user_func_array($callback, $params);
         } else {
             $instance = new $className;

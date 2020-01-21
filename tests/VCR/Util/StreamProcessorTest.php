@@ -35,7 +35,7 @@ class StreamProcessorTest extends TestCase
     {
         $mock = $this->getMockBuilder('VCR\Util\StreamProcessor')
             ->disableOriginalConstructor()
-            ->setMethods(array('intercept', 'restore', 'appendFiltersToStream', 'shouldProcess'))
+            ->setMethods(['intercept', 'restore', 'appendFiltersToStream', 'shouldProcess'])
             ->getMock();
 
         if (!is_null($shouldProcess)) {
@@ -54,21 +54,21 @@ class StreamProcessorTest extends TestCase
 
     public function streamOpenAppendFilterProvider()
     {
-        return array(
-            array(true, StreamProcessor::STREAM_OPEN_FOR_INCLUDE, true),
-            array(false, StreamProcessor::STREAM_OPEN_FOR_INCLUDE, false),
-            array(false, 0),
-        );
+        return [
+            [true, StreamProcessor::STREAM_OPEN_FOR_INCLUDE, true],
+            [false, StreamProcessor::STREAM_OPEN_FOR_INCLUDE, false],
+            [false, 0],
+        ];
     }
 
     public function streamOpenFileModesWhichDoNotCreateFiles()
     {
-        return array(
-            array('r'),
-            array('rb'),
-            array('rt'),
-            array('r+')
-        );
+        return [
+            ['r'],
+            ['rb'],
+            ['rt'],
+            ['r+']
+        ];
     }
     /**
      * @dataProvider streamOpenFileModesWhichDoNotCreateFiles
@@ -177,7 +177,7 @@ class StreamProcessorTest extends TestCase
 
         $path = 'tests/fixtures/unnitest_streamprocessor_metadata';
         $this->assertTrue($mock->stream_metadata($path, STREAM_META_TOUCH, null));
-        $this->assertTrue($mock->stream_metadata($path, STREAM_META_TOUCH, array(time(), time())));
+        $this->assertTrue($mock->stream_metadata($path, STREAM_META_TOUCH, [time(), time()]));
 
         $this->assertTrue($mock->stream_metadata($path, STREAM_META_OWNER_NAME, posix_getuid()));
         $this->assertTrue($mock->stream_metadata($path, STREAM_META_OWNER, posix_getuid()));
@@ -194,7 +194,7 @@ class StreamProcessorTest extends TestCase
     {
         return $this->getMockBuilder('VCR\Util\StreamProcessor')
             ->disableOriginalConstructor()
-            ->setMethods(array('intercept', 'restore'))
+            ->setMethods(['intercept', 'restore'])
             ->getMock();
     }
 }

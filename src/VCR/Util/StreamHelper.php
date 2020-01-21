@@ -28,7 +28,7 @@ class StreamHelper
 
         if (empty($request)) {
             $method = !empty($http['method']) ? $http['method'] : 'GET';
-            $request = new Request($method, $path, array());
+            $request = new Request($method, $path, []);
         }
 
         if (!empty($http['header'])) {
@@ -73,11 +73,11 @@ class StreamHelper
     protected static function getHttpOptionsFromContext($context): array
     {
         if (!$context) {
-            return array();
+            return [];
         }
 
         $options = stream_context_get_options($context);
 
-        return !empty($options['http']) ? $options['http'] : array();
+        return !empty($options['http']) ? $options['http'] : [];
     }
 }

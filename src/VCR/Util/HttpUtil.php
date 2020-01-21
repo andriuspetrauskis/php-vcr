@@ -14,14 +14,14 @@ class HttpUtil
      */
     public static function parseHeaders(array $headers): array
     {
-        $headerGroups = array();
-        $headerList = array();
+        $headerGroups = [];
+        $headerList = [];
 
         // Collect matching headers into groups
         foreach ($headers as $line) {
             list($key, $value) = explode(': ', $line, 2);
             if (!isset($headerGroups[$key])) {
-                $headerGroups[$key] = array();
+                $headerGroups[$key] = [];
             }
             $headerGroups[$key][] = $value;
         }
@@ -50,11 +50,11 @@ class HttpUtil
 
         $part = explode(' ', $status, 3);
 
-        return array(
+        return [
             'http_version' => substr(strrchr($part[0], '/'), 1),
             'code' => $part[1],
             'message' => isset($part[2]) ? $part[2] : ''
-        );
+        ];
     }
 
     /**
@@ -73,7 +73,7 @@ class HttpUtil
         $headers = self::parseRawHeader($rawHeader);
         $status = array_shift($headers);
 
-        return array($status, $headers, $rawBody);
+        return [$status, $headers, $rawBody];
     }
 
     /**
@@ -95,7 +95,7 @@ class HttpUtil
      */
     public static function formatHeadersForCurl(array $headers): array
     {
-        $curlHeaders = array();
+        $curlHeaders = [];
 
         foreach ($headers as $key => $value) {
             $curlHeaders[] = $key . ': ' . $value;

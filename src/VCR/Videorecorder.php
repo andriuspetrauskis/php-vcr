@@ -184,7 +184,7 @@ class Videorecorder
             $this->eject();
         }
 
-        $storage = $this->factory->get('Storage', array($cassetteName));
+        $storage = $this->factory->get('Storage', [$cassetteName]);
 
         $this->cassette = new Cassette($cassetteName, $this->config, $storage);
         $this->enableLibraryHooks();

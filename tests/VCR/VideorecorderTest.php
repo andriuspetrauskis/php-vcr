@@ -25,10 +25,10 @@ class VideorecorderTest extends TestCase
         $factory = VCRFactory::getInstance();
         $configuration = $factory->get('VCR\Configuration');
         $configuration->setCassettePath(vfsStream::url('testDir'));
-        $configuration->enableLibraryHooks(array());
+        $configuration->enableLibraryHooks([]);
         $videorecorder = $this->getMockBuilder('\VCR\Videorecorder')
-            ->setConstructorArgs(array($configuration, new Util\HttpClient(), VCRFactory::getInstance()))
-            ->setMethods(array('eject'))
+            ->setConstructorArgs([$configuration, new Util\HttpClient(), VCRFactory::getInstance()])
+            ->setMethods(['eject'])
             ->getMock();
 
         $videorecorder->expects($this->exactly(2))->method('eject');
@@ -41,11 +41,11 @@ class VideorecorderTest extends TestCase
 
     public function testHandleRequestRecordsRequestWhenModeIsNewRecords()
     {
-        $request = new Request('GET', 'http://example.com', array('User-Agent' => 'Unit-Test'));
-        $response = new Response(200, array(), 'example response');
+        $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
+        $response = new Response(200, [], 'example response');
         $client = $this->getClientMock($request, $response);
         $configuration = new Configuration();
-        $configuration->enableLibraryHooks(array());
+        $configuration->enableLibraryHooks([]);
         $configuration->setMode('new_episodes');
 
         $videorecorder = new class($configuration, $client, VCRFactory::getInstance()) extends Videorecorder {
@@ -68,11 +68,11 @@ class VideorecorderTest extends TestCase
             . "If you want to send the request anyway, make sure your 'mode' is set to 'new_episodes'."
         );
 
-        $request = new Request('GET', 'http://example.com', array('User-Agent' => 'Unit-Test'));
-        $response = new Response(200, array(), 'example response');
+        $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
+        $response = new Response(200, [], 'example response');
         $client = $this->getMockBuilder('\VCR\Util\HttpClient')->getMock();
         $configuration = new Configuration();
-        $configuration->enableLibraryHooks(array());
+        $configuration->enableLibraryHooks([]);
         $configuration->setMode('none');
 
         $videorecorder = new class($configuration, $client, VCRFactory::getInstance()) extends Videorecorder {
@@ -89,11 +89,11 @@ class VideorecorderTest extends TestCase
 
     public function testHandleRequestRecordsRequestWhenModeIsOnceAndCassetteIsNew()
     {
-        $request = new Request('GET', 'http://example.com', array('User-Agent' => 'Unit-Test'));
-        $response = new Response(200, array(), 'example response');
+        $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
+        $response = new Response(200, [], 'example response');
         $client = $this->getClientMock($request, $response);
         $configuration = new Configuration();
-        $configuration->enableLibraryHooks(array());
+        $configuration->enableLibraryHooks([]);
         $configuration->setMode('once');
 
         $videorecorder = new class($configuration, $client, VCRFactory::getInstance()) extends Videorecorder {
@@ -116,11 +116,11 @@ class VideorecorderTest extends TestCase
             . "If you want to send the request anyway, make sure your 'mode' is set to 'new_episodes'."
         );
 
-        $request = new Request('GET', 'http://example.com', array('User-Agent' => 'Unit-Test'));
-        $response = new Response(200, array(), 'example response');
+        $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
+        $response = new Response(200, [], 'example response');
         $client = $this->getMockBuilder('\VCR\Util\HttpClient')->getMock();
         $configuration = new Configuration();
-        $configuration->enableLibraryHooks(array());
+        $configuration->enableLibraryHooks([]);
         $configuration->setMode('once');
 
         $videorecorder = new class($configuration, $client, VCRFactory::getInstance()) extends Videorecorder {
@@ -137,7 +137,7 @@ class VideorecorderTest extends TestCase
 
     protected function getClientMock($request, $response)
     {
-        $client = $this->getMockBuilder('\VCR\Util\HttpClient')->setMethods(array('send'))->getMock();
+        $client = $this->getMockBuilder('\VCR\Util\HttpClient')->setMethods(['send'])->getMock();
         $client
             ->expects($this->once())
             ->method('send')
@@ -151,7 +151,7 @@ class VideorecorderTest extends TestCase
     {
         $cassette = $this->getMockBuilder('\VCR\Cassette')
             ->disableOriginalConstructor()
-            ->setMethods(array('record', 'playback', 'isNew', 'getName'))
+            ->setMethods(['record', 'playback', 'isNew', 'getName'])
             ->getMock();
         $cassette
             ->expects($this->once())

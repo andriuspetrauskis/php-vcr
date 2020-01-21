@@ -33,16 +33,16 @@ class Configuration
      * List of library hooks.
      *
      * Format:
-     * array(
+     * [
      *  'name' => 'class name'
-     * )
-     * @var array List of library hooks.
+     * ]
+     * @var string[] List of library hooks.
      */
-    private $availableLibraryHooks = array(
+    private $availableLibraryHooks = [
         'stream_wrapper' => 'VCR\LibraryHooks\StreamWrapperHook',
         'curl'           => 'VCR\LibraryHooks\CurlHook',
         'soap'           => 'VCR\LibraryHooks\SoapHook',
-    );
+    ];
 
     /**
      * Name of the enabled storage.
@@ -58,17 +58,17 @@ class Configuration
      * List of enabled storages.
      *
      * Format:
-     * array(
+     * [
      *  'name' => 'class name'
-     * )
+     * ]
      *
-     * @var array List of available storages.
+     * @var string[] List of available storages.
      */
-    private $availableStorages = array(
+    private $availableStorages = [
         'blackhole' => 'VCR\Storage\Blackhole',
         'json'      => 'VCR\Storage\Json',
         'yaml'      => 'VCR\Storage\Yaml',
-    );
+    ];
 
     /**
      * A value of null means all RequestMatchers are enabled.
@@ -79,25 +79,25 @@ class Configuration
 
     /**
      * Format:
-     * array(
+     * [
      *  'name' => callback
-     * )
+     * ]
      *
      * The RequestMatcher callback takes two Request objects and
      * returns true if they match or false otherwise.
      *
      * @var array<string,callable(Request $first, Request $second):bool> List of RequestMatcher names and callbacks.
      */
-    private $availableRequestMatchers = array(
-        'method'         => array(RequestMatcher::class, 'matchMethod'),
-        'url'            => array(RequestMatcher::class, 'matchUrl'),
-        'host'           => array(RequestMatcher::class, 'matchHost'),
-        'headers'        => array(RequestMatcher::class, 'matchHeaders'),
-        'body'           => array(RequestMatcher::class, 'matchBody'),
-        'post_fields'    => array(RequestMatcher::class, 'matchPostFields'),
-        'query_string'   => array(RequestMatcher::class, 'matchQueryString'),
-        'soap_operation' => array(RequestMatcher::class, 'matchSoapOperation'),
-    );
+    private $availableRequestMatchers = [
+        'method'         => [RequestMatcher::class, 'matchMethod'],
+        'url'            => [RequestMatcher::class, 'matchUrl'],
+        'host'           => [RequestMatcher::class, 'matchHost'],
+        'headers'        => [RequestMatcher::class, 'matchHeaders'],
+        'body'           => [RequestMatcher::class, 'matchBody'],
+        'post_fields'    => [RequestMatcher::class, 'matchPostFields'],
+        'query_string'   => [RequestMatcher::class, 'matchQueryString'],
+        'soap_operation' => [RequestMatcher::class, 'matchSoapOperation'],
+    ];
 
     /**
      * A whitelist is a list of paths.
@@ -109,7 +109,7 @@ class Configuration
      *
      * @var string[] A whitelist is a list of paths.
      */
-    private $whiteList = array();
+    private $whiteList = [];
 
     /**
      * A blacklist is a list of paths which may not be processed for code transformation.
@@ -119,7 +119,7 @@ class Configuration
      *
      * @var string[] A blacklist is a list of paths.
      */
-    private $blackList = array('src/VCR/LibraryHooks/', 'src/VCR/Util/SoapClient', 'tests/VCR/Filter');
+    private $blackList = ['src/VCR/LibraryHooks/', 'src/VCR/Util/SoapClient', 'tests/VCR/Filter'];
 
     /**
      * The mode which determines how requests are handled. One of the MODE constants.
@@ -132,17 +132,17 @@ class Configuration
      * List of available modes.
      *
      * Format:
-     * array(
+     * [
      *  'name'
-     * )
+     * ]
      *
      * @var array List of available modes.
      */
-    private $availableModes = array(
+    private $availableModes = [
         VCR::MODE_NEW_EPISODES,
         VCR::MODE_ONCE,
         VCR::MODE_NONE,
-    );
+    ];
 
     /**
      * Returns the current blacklist.
@@ -163,7 +163,7 @@ class Configuration
      */
     public function setBlackList($paths): self
     {
-        $paths = (is_array($paths)) ? $paths : array($paths);
+        $paths = (is_array($paths)) ? $paths : [$paths];
 
         $this->blackList = $paths;
 
@@ -227,7 +227,7 @@ class Configuration
      */
     public function enableLibraryHooks($hooks): self
     {
-        $hooks = is_array($hooks) ? $hooks : array($hooks);
+        $hooks = is_array($hooks) ? $hooks : [$hooks];
         $invalidHooks = array_diff($hooks, array_keys($this->availableLibraryHooks));
         if ($invalidHooks) {
             throw new \InvalidArgumentException("Library hooks don't exist: " . join(', ', $invalidHooks));
@@ -338,7 +338,7 @@ class Configuration
      */
     public function setWhiteList($paths): Configuration
     {
-        $paths = (is_array($paths)) ? $paths : array($paths);
+        $paths = (is_array($paths)) ? $paths : [$paths];
 
         $this->whiteList = $paths;
 

@@ -18,7 +18,7 @@ class SoapClient extends \SoapClient
     /**
      * @var array<string,mixed>
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * @var string
@@ -34,7 +34,7 @@ class SoapClient extends \SoapClient
      * @param mixed $wsdl
      * @param array<string,mixed> $options
      */
-    public function __construct($wsdl, array $options = array())
+    public function __construct($wsdl, array $options = [])
     {
         $this->options = $options;
         parent::__construct($wsdl, $options);

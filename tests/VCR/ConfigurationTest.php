@@ -33,22 +33,22 @@ class ConfigurationTest extends TestCase
     public function testGetLibraryHooks()
     {
         $this->assertEquals(
-            array(
+            [
                 'VCR\LibraryHooks\StreamWrapperHook',
                 'VCR\LibraryHooks\CurlHook',
                 'VCR\LibraryHooks\SoapHook',
-            ),
+            ],
             $this->config->getLibraryHooks()
         );
     }
 
     public function testEnableLibraryHooks()
     {
-        $this->config->enableLibraryHooks(array('stream_wrapper'));
+        $this->config->enableLibraryHooks(['stream_wrapper']);
         $this->assertEquals(
-            array(
+            [
                 'VCR\LibraryHooks\StreamWrapperHook',
-            ),
+            ],
             $this->config->getLibraryHooks()
         );
     }
@@ -57,9 +57,9 @@ class ConfigurationTest extends TestCase
     {
         $this->config->enableLibraryHooks('stream_wrapper');
         $this->assertEquals(
-            array(
+            [
                 'VCR\LibraryHooks\StreamWrapperHook',
-            ),
+            ],
             $this->config->getLibraryHooks()
         );
     }
@@ -67,17 +67,17 @@ class ConfigurationTest extends TestCase
     public function testEnableLibraryHooksFailsWithWrongHookName()
     {
         $this->expectException('InvalidArgumentException', "Library hooks don't exist: non_existing");
-        $this->config->enableLibraryHooks(array('non_existing'));
+        $this->config->enableLibraryHooks(['non_existing']);
     }
 
     public function testEnableRequestMatchers()
     {
-        $this->config->enableRequestMatchers(array('body', 'headers'));
+        $this->config->enableRequestMatchers(['body', 'headers']);
         $this->assertEquals(
-            array(
-                array('VCR\RequestMatcher', 'matchHeaders'),
-                array('VCR\RequestMatcher', 'matchBody'),
-            ),
+            [
+                ['VCR\RequestMatcher', 'matchHeaders'],
+                ['VCR\RequestMatcher', 'matchBody'],
+            ],
             $this->config->getRequestMatchers()
         );
     }
@@ -85,7 +85,7 @@ class ConfigurationTest extends TestCase
     public function testEnableRequestMatchersFailsWithNoExistingName()
     {
         $this->expectException('InvalidArgumentException', "Request matchers don't exist: wrong, name");
-        $this->config->enableRequestMatchers(array('wrong', 'name'));
+        $this->config->enableRequestMatchers(['wrong', 'name']);
     }
 
     public function testAddRequestMatcherFailsWithNoName()
@@ -117,10 +117,10 @@ class ConfigurationTest extends TestCase
 
     public function availableStorageProvider()
     {
-        return array(
-            array('json', 'VCR\Storage\Json'),
-            array('yaml', 'VCR\Storage\Yaml'),
-        );
+        return [
+            ['json', 'VCR\Storage\Json'],
+            ['yaml', 'VCR\Storage\Yaml'],
+        ];
     }
 
     public function testSetStorageInvalidName()
@@ -139,7 +139,7 @@ class ConfigurationTest extends TestCase
 
     public function testWhitelist()
     {
-        $expected = array('Tux', 'Gnu');
+        $expected = ['Tux', 'Gnu'];
 
         $this->config->setWhiteList($expected);
 
@@ -148,7 +148,7 @@ class ConfigurationTest extends TestCase
 
     public function testBlacklist()
     {
-        $expected = array('Tux', 'Gnu');
+        $expected = ['Tux', 'Gnu'];
 
         $this->config->setBlackList($expected);
 

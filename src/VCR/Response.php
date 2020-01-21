@@ -12,15 +12,15 @@ class Response
     /**
      * @var array
      */
-    protected $status = array(
+    protected $status = [
         'code' => null,
         'message' => ''
-    );
+    ];
 
     /**
      * @var array<string,string>
      */
-    protected $headers = array();
+    protected $headers = [];
     /**
      * @var string|null
      */
@@ -28,7 +28,7 @@ class Response
     /**
      * @var array<string,mixed>
      */
-    protected $curlInfo = array();
+    protected $curlInfo = [];
 
     protected $httpVersion;
 
@@ -38,7 +38,7 @@ class Response
      * @param string|null $body
      * @param array<string,mixed> $curlInfo
      */
-    public function __construct($status, array $headers = array(), ?string $body = null, array $curlInfo = array())
+    public function __construct($status, array $headers = [], ?string $body = null, array $curlInfo = [])
     {
         $this->setStatus($status);
         $this->headers = $headers;
@@ -62,12 +62,12 @@ class Response
         }
 
         return array_filter(
-            array(
+            [
                 'status'    => $this->status,
                 'headers'   => $this->getHeaders(),
                 'body'      => $body,
                 'curl_info' => $this->curlInfo,
-            )
+            ]
         );
     }
 
@@ -94,9 +94,9 @@ class Response
 
         return new static(
             isset($response['status']) ? $response['status'] : 200,
-            isset($response['headers']) ? $response['headers'] : array(),
+            isset($response['headers']) ? $response['headers'] : [],
             $body,
-            isset($response['curl_info']) ? $response['curl_info'] : array()
+            isset($response['curl_info']) ? $response['curl_info'] : []
         );
     }
 

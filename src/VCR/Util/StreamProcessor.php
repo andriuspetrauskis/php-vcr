@@ -35,7 +35,7 @@ class StreamProcessor
     /**
      * @var AbstractCodeTransform[] $codeTransformers Transformers which have been appended to this stream processor.
      */
-    protected static $codeTransformers = array();
+    protected static $codeTransformers = [];
 
     /**
      * @var resource|false Resource for the currently opened file.
