@@ -230,7 +230,7 @@ class Configuration
         $hooks = is_array($hooks) ? $hooks : [$hooks];
         $invalidHooks = array_diff($hooks, array_keys($this->availableLibraryHooks));
         if ($invalidHooks) {
-            throw new \InvalidArgumentException("Library hooks don't exist: " . join(', ', $invalidHooks));
+            throw new \InvalidArgumentException("Library hooks don't exist: " . implode(', ', $invalidHooks));
         }
         $this->enabledLibraryHooks = $hooks;
 
@@ -296,7 +296,7 @@ class Configuration
     {
         $invalidMatchers = array_diff($matchers, array_keys($this->availableRequestMatchers));
         if ($invalidMatchers) {
-            throw new \InvalidArgumentException("Request matchers don't exist: " . join(', ', $invalidMatchers));
+            throw new \InvalidArgumentException("Request matchers don't exist: " . implode(', ', $invalidMatchers));
         }
         $this->enabledRequestMatchers = $matchers;
         

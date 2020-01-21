@@ -113,7 +113,7 @@ class VCRFactory
      */
     public function getOrCreate(string $className, array $params = [])
     {
-        $key = $className . join('-', $params);
+        $key = $className . implode('-', $params);
 
         if (isset($this->mapping[$key])) {
             return $this->mapping[$key];

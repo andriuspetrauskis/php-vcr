@@ -127,6 +127,6 @@ class HttpUtil
     {
         $headers = self::formatHeadersForCurl($response->getHeaders());
         array_unshift($headers, self::formatAsStatusString($response));
-        return join("\r\n", $headers) . "\r\n\r\n";
+        return implode("\r\n", $headers) . "\r\n\r\n";
     }
 }
