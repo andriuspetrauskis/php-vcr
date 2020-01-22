@@ -28,19 +28,15 @@ class BlackholeTest extends TestCase
         $this->assertNull($this->storage->rewind());
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
     public function testKeyIsNotCallable()
     {
+        $this->expectException(\BadMethodCallException::class);
         $this->storage->key();
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
     public function testCurrentIsNotCallable()
     {
+        $this->expectException(\BadMethodCallException::class);
         $this->storage->current();
     }
 

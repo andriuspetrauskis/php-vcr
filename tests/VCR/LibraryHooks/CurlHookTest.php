@@ -65,7 +65,7 @@ class CurlHookTest extends TestCase
         $response = curl_exec($curlHandle);
         curl_close($curlHandle);
 
-        $this->assertContains('Example Domain', $response, 'Response from http://example.com should contain "Example Domain".');
+        $this->assertStringContainsString('Example Domain', $response, 'Response from http://example.com should contain "Example Domain".');
     }
 
     /**
@@ -214,7 +214,7 @@ class CurlHookTest extends TestCase
         $info = curl_getinfo($curlHandle);
         curl_close($curlHandle);
 
-        $this->assertInternalType('array', $info, 'curl_getinfo() should return an array.');
+        $this->assertIsArray($info, 'curl_getinfo() should return an array.');
         $this->assertCount(21, $info, 'curl_getinfo() should return 21 values.');
         $this->curlHook->disable();
     }
@@ -229,7 +229,7 @@ class CurlHookTest extends TestCase
         $info = curl_getinfo($curlHandle);
         curl_close($curlHandle);
 
-        $this->assertInternalType('array', $info, 'curl_getinfo() should return an array.');
+        $this->assertIsArray($info, 'curl_getinfo() should return an array.');
         $this->assertArrayHasKey('url', $info);
         $this->assertArrayHasKey('content_type', $info);
         $this->assertArrayHasKey('http_code', $info);
