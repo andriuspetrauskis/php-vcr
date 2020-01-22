@@ -12,7 +12,7 @@ use VCR\VCRException;
  */
 class VCRTest extends TestCase
 {
-    public static function setupBeforeClass()
+    public static function setupBeforeClass(): void
     {
         VCR::configure()->setCassettePath('tests/fixtures') ;
     }

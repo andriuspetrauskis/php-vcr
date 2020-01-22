@@ -21,7 +21,7 @@ class ExampleHttpClientTest extends TestCase
         'X-Request-Id',
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('testDir');
         \VCR\VCR::configure()->setCassettePath(vfsStream::url('testDir'));

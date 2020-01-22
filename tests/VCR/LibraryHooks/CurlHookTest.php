@@ -25,7 +25,7 @@ class CurlHookTest extends TestCase
      */
     protected $curlHook;
 
-    public function setup()
+    public function setUp(): void
     {
         $this->config = new Configuration();
         $this->curlHook = new CurlHook(new CurlCodeTransform(), new StreamProcessor($this->config));

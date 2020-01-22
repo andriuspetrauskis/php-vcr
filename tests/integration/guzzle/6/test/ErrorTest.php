@@ -16,7 +16,7 @@ class ErrorTest extends TestCase
 {
     private const TEST_GET_URL = 'http://localhost:9959';
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('testDir');
         \VCR\VCR::configure()->setCassettePath(vfsStream::url('testDir'));

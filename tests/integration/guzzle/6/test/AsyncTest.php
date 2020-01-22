@@ -14,7 +14,7 @@ class AsyncTest extends TestCase
     private const TEST_GET_URL = 'https://api.chew.pro/trbmb';
     private const TEST_GET_URL_2 = 'https://api.chew.pro/trbmb?foo=42';
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('testDir');
         \VCR\VCR::configure()->setCassettePath(vfsStream::url('testDir'));

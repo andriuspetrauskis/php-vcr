@@ -14,7 +14,7 @@ class JsonTest extends TestCase
     protected $filePath;
     protected $jsonObject;
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('test');
         $this->filePath = vfsStream::url('test/') . 'json_test';
