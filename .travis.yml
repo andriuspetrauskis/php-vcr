@@ -12,7 +12,7 @@ matrix:
       php: 7.3
     - env: TEST_DIR=.
       php: 7.4
-    - env: TEST_DIR=.
+    - env: TEST_DIR=. COMPOSER_FLAGS="--ignore-platform-reqs"
       php: nightly
     - env: TEST_DIR=tests/integration/apache
       php: 7.2
