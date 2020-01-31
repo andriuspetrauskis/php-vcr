@@ -27,14 +27,14 @@ class ExampleSoapClientTest extends TestCase
     public function testCallDirectly()
     {
         $actual = $this->callSoap();
-        $this->assertInternalType('string', $actual);
+        $this->assertIsString('string', $actual);
         $this->assertEquals('twelve', $actual);
     }
 
     public function testCallIntercepted()
     {
         $actual = $this->callSoapIntercepted();
-        $this->assertInternalType('string', $actual);
+        $this->assertIsString('string', $actual);
         $this->assertEquals('twelve', $actual);
     }
 

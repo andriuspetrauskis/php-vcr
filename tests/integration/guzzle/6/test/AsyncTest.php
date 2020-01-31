@@ -40,7 +40,7 @@ class AsyncTest extends TestCase
 
     protected function assertValidGETResponse($info)
     {
-        $this->assertInternalType('array', $info, 'Response is not an array.');
+        $this->assertIsArray($info, 'Response is not an array.');
         $this->assertArrayHasKey('0', $info, 'API did not return any value.');
     }
 }
