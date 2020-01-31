@@ -25,12 +25,12 @@ class VCRFactoryTest extends TestCase
      * @dataProvider instanceProvider
      * @covers VCR\VCRFactory::createVCRVideorecorder()
      */
-    public function testCreateInstances($instance)
+    public function testCreateInstances(string $instance): void
     {
         $this->assertInstanceOf($instance, VCRFactory::get($instance));
     }
 
-    public function instanceProvider()
+    public function instanceProvider(): array
     {
         return [
             [Videorecorder::class],
@@ -48,7 +48,7 @@ class VCRFactoryTest extends TestCase
     /**
      * @dataProvider storageProvider
      */
-    public function testCreateStorage($storage, $className)
+    public function testCreateStorage(string $storage, string $className): void
     {
         vfsStream::setup('test');
 
@@ -60,7 +60,7 @@ class VCRFactoryTest extends TestCase
         $this->assertInstanceOf($className, $instance);
     }
 
-    public function storageProvider()
+    public function storageProvider(): array
     {
         return [
             ['json', Json::class],

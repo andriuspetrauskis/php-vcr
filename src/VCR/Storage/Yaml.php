@@ -54,7 +54,7 @@ class Yaml extends AbstractStorage
      *
      * @return void
      */
-    public function next()
+    public function next(): void
     {
         $recording = $this->yamlParser->parse($this->readNextRecord());
         $this->current = $recording[0] ?? null;
@@ -104,7 +104,7 @@ class Yaml extends AbstractStorage
      *
      * @return void
      */
-    public function rewind()
+    public function rewind(): void
     {
         rewind($this->handle);
         $this->isEOF = false;
@@ -117,7 +117,7 @@ class Yaml extends AbstractStorage
      *
      * @return boolean True if the current record is valid.
      */
-    public function valid()
+    public function valid(): bool
     {
         if (is_null($this->current)) {
             $this->next();

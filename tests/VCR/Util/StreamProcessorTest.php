@@ -2,6 +2,7 @@
 
 namespace VCR\Util;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Error\Warning;
 use VCR\Util\StreamProcessor;
@@ -12,7 +13,7 @@ class StreamProcessorTest extends TestCase
     /**
      * test flock with file_put_contents
      */
-    public function testFlockWithFilePutContents()
+    public function testFlockWithFilePutContents(): void
     {
         $processor = new StreamProcessor();
         $processor->intercept();
@@ -32,7 +33,7 @@ class StreamProcessorTest extends TestCase
      * @param  boolean $shouldProcess
      * @param  integer $option
      */
-    public function testStreamOpenShouldAppendFilters($expected, $option, $shouldProcess = null)
+    public function testStreamOpenShouldAppendFilters(bool $expected, int $option, bool $shouldProcess = null): void
     {
         $mock = $this->getMockBuilder(StreamProcessor::class)
             ->disableOriginalConstructor()
@@ -53,7 +54,7 @@ class StreamProcessorTest extends TestCase
         $mock->stream_close();
     }
 
-    public function streamOpenAppendFilterProvider()
+    public function streamOpenAppendFilterProvider(): array
     {
         return [
             [true, StreamProcessor::STREAM_OPEN_FOR_INCLUDE, true],
@@ -62,7 +63,7 @@ class StreamProcessorTest extends TestCase
         ];
     }
 
-    public function streamOpenFileModesWhichDoNotCreateFiles()
+    public function streamOpenFileModesWhichDoNotCreateFiles(): array
     {
         return [
             ['r'],
@@ -74,7 +75,7 @@ class StreamProcessorTest extends TestCase
     /**
      * @dataProvider streamOpenFileModesWhichDoNotCreateFiles
      */
-    public function testStreamOpenShouldNotFailOnNonExistingFile($fileMode)
+    public function testStreamOpenShouldNotFailOnNonExistingFile($fileMode): void
     {
         $test = $this;
         set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($test) {
@@ -92,7 +93,7 @@ class StreamProcessorTest extends TestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testUrlStatSuccessfully()
+    public function testUrlStatSuccessfully(): void
     {
         $test = $this;
         set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($test) {
@@ -105,7 +106,7 @@ class StreamProcessorTest extends TestCase
         restore_error_handler();
     }
 
-    public function testUrlStatFileNotFound()
+    public function testUrlStatFileNotFound(): void
     {
         $processor = new StreamProcessor();
         $this->expectException(Warning::class);
@@ -115,20 +116,20 @@ class StreamProcessorTest extends TestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testQuietUrlStatFileNotFoundToBeQuiet()
+    public function testQuietUrlStatFileNotFoundToBeQuiet(): void
     {
         $processor = new StreamProcessor();
         $processor->url_stat('file_not_found', STREAM_URL_STAT_QUIET);
     }
 
-    public function testDirOpendir()
+    public function testDirOpendir(): void
     {
         $processor = new StreamProcessor();
         $this->assertTrue($processor->dir_opendir('tests/fixtures'));
         $processor->dir_closedir();
     }
 
-    public function testDirOpendirNotFound()
+    public function testDirOpendirNotFound(): void
     {
         $test = $this;
         set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($test) {
@@ -141,7 +142,7 @@ class StreamProcessorTest extends TestCase
         restore_error_handler();
     }
 
-    public function testMakeDir()
+    public function testMakeDir(): void
     {
         $mock = $this->getStreamProcessorMock();
         $mock->expects($this->exactly(2))->method('restore');
@@ -151,7 +152,7 @@ class StreamProcessorTest extends TestCase
         $this->assertTrue($mock->rmdir('tests/fixtures/unittest_streamprocessor'));
     }
 
-    public function testRename()
+    public function testRename(): void
     {
         $mock = $this->getStreamProcessorMock();
         $mock->expects($this->exactly(3))->method('restore');
@@ -162,7 +163,7 @@ class StreamProcessorTest extends TestCase
         $this->assertTrue($mock->rmdir('tests/fixtures/sp'));
     }
 
-    public function testStreamMetadata()
+    public function testStreamMetadata(): void
     {
         if (version_compare(PHP_VERSION, '5.4.0', '<')) {
             $this->markTestSkipped('Behavior is only applicable and testable for PHP 5.4+');
@@ -191,7 +192,10 @@ class StreamProcessorTest extends TestCase
         $this->assertTrue($mock->unlink($path));
     }
 
-    protected function getStreamProcessorMock()
+    /**
+     * @return MockObject&StreamProcessor
+     */
+    protected function getStreamProcessorMock(): MockObject
     {
         return $this->getMockBuilder(StreamProcessor::class)
             ->disableOriginalConstructor()

@@ -87,7 +87,7 @@ abstract class AbstractStorage implements Storage
      *
      * @return array|null Parsed current record.
      */
-    public function current()
+    public function current(): ?array
     {
         return $this->current;
     }
@@ -97,7 +97,7 @@ abstract class AbstractStorage implements Storage
      *
      * @return integer
      */
-    public function key()
+    public function key(): int
     {
         return $this->position;
     }

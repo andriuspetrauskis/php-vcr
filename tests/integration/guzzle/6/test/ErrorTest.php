@@ -22,7 +22,7 @@ class ErrorTest extends TestCase
         \VCR\VCR::configure()->setCassettePath(vfsStream::url('testDir'));
     }
 
-    public function testConnectException()
+    public function testConnectException(): void
     {
         $nonInstrumentedException = null;
         try {
@@ -46,7 +46,7 @@ class ErrorTest extends TestCase
         \VCR\VCR::turnOff();
     }
 
-    protected function assertValidGETResponse($info)
+    protected function assertValidGETResponse($info): void
     {
     }
 }

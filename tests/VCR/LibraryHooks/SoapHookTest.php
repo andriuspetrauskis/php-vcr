@@ -30,7 +30,7 @@ class SoapHookTest extends TestCase
         $this->soapHook = new SoapHook(new SoapCodeTransform(), new StreamProcessor($this->config));
     }
 
-    public function testShouldInterceptCallWhenEnabled()
+    public function testShouldInterceptCallWhenEnabled(): void
     {
         $this->soapHook->enable($this->getContentCheckCallback());
 
@@ -43,7 +43,7 @@ class SoapHookTest extends TestCase
         $this->assertTrue($actual->GetCityWeatherByZIPResult->Success, 'Response was not returned.');
     }
 
-    public function testShouldHandleSOAPVersion11()
+    public function testShouldHandleSOAPVersion11(): void
     {
         $expectedHeaders = [
             'Content-Type' => 'text/xml; charset=utf-8;',
@@ -59,7 +59,7 @@ class SoapHookTest extends TestCase
         $client->GetCityWeatherByZIP(['ZIP' => '10013']);
     }
 
-    public function testShouldHandleSOAPVersion12()
+    public function testShouldHandleSOAPVersion12(): void
     {
         $expectedHeaders = [
             'Content-Type' => 'application/soap+xml; charset=utf-8; action="http://ws.cdyne.com/WeatherWS/GetCityWeatherByZIP"',
@@ -75,7 +75,7 @@ class SoapHookTest extends TestCase
         $client->GetCityWeatherByZIP(['ZIP' => '10013']);
     }
 
-    public function testShouldReturnLastRequestWithTraceOn()
+    public function testShouldReturnLastRequestWithTraceOn(): void
     {
         $this->soapHook->enable($this->getContentCheckCallback());
 

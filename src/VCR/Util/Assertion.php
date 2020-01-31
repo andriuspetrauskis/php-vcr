@@ -16,7 +16,7 @@ class Assertion extends BaseAssertion
      *
      * @param  mixed  $value Variable to check for a callable.
      * @param  string $message Exception message to show if value is not a callable.
-     * @param  null   $propertyPath
+     * @param  string|null $propertyPath
      * @throws \VCR\VCRException If specified value is not a callable.
      *
      * @return bool

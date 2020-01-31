@@ -10,7 +10,7 @@ class CurlCodeTransformTest extends TestCase
     /**
      * @dataProvider codeSnippetProvider
      */
-    public function testTransformCode($expected, $code)
+    public function testTransformCode(string $expected, string $code): void
     {
         $codeTransform = new class extends CurlCodeTransform {
             // A proxy to access the protected transformCode method.
@@ -23,7 +23,7 @@ class CurlCodeTransformTest extends TestCase
         $this->assertEquals($expected, $codeTransform->publicTransformCode($code));
     }
 
-    public function codeSnippetProvider()
+    public function codeSnippetProvider(): array
     {
         return [
             ['\VCR\LibraryHooks\CurlHook::curl_init(', 'CURL_INIT ('],

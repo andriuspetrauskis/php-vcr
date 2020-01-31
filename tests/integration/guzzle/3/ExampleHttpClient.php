@@ -7,7 +7,7 @@ use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class ExampleHttpClient
 {
-    public function get($url)
+    public function get($url): ?array
     {
         $client = new Client();
 
@@ -25,7 +25,7 @@ class ExampleHttpClient
         return null;
     }
     
-    public function post($url, $body)
+    public function post($url, $body): ?array
     {
         $client = new Client();
         

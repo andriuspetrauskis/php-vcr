@@ -83,7 +83,7 @@ class Json extends AbstractStorage
      *
      * @return void
      */
-    public function rewind()
+    public function rewind(): void
     {
         rewind($this->handle);
         $this->isEOF = false;
@@ -95,7 +95,7 @@ class Json extends AbstractStorage
      *
      * @return boolean True if the current record is valid.
      */
-    public function valid()
+    public function valid(): bool
     {
         if (is_null($this->current)) {
             $this->next();

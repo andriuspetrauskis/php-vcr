@@ -4,6 +4,7 @@ namespace VCR;
 
 use lapistano\ProxyObject\ProxyBuilder;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VCR\Configuration;
 use VCR\Videorecorder;
@@ -15,7 +16,7 @@ use VCR\Cassette;
  */
 class VideorecorderTest extends TestCase
 {
-    public function testCreateVideorecorder()
+    public function testCreateVideorecorder(): void
     {
         $this->assertInstanceOf(
             Videorecorder::class,
@@ -23,7 +24,7 @@ class VideorecorderTest extends TestCase
         );
     }
 
-    public function testInsertCassetteEjectExisting()
+    public function testInsertCassetteEjectExisting(): void
     {
         vfsStream::setup('testDir');
         $factory = VCRFactory::getInstance();
@@ -43,7 +44,7 @@ class VideorecorderTest extends TestCase
         $videorecorder->turnOff();
     }
 
-    public function testHandleRequestRecordsRequestWhenModeIsNewRecords()
+    public function testHandleRequestRecordsRequestWhenModeIsNewRecords(): void
     {
         $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
         $response = new Response(200, [], 'example response');
@@ -64,7 +65,7 @@ class VideorecorderTest extends TestCase
         $this->assertEquals($response, $videorecorder->handleRequest($request));
     }
 
-    public function testHandleRequestThrowsExceptionWhenModeIsNone()
+    public function testHandleRequestThrowsExceptionWhenModeIsNone(): void
     {
         $this->expectException(
             'LogicException',
@@ -91,7 +92,7 @@ class VideorecorderTest extends TestCase
         $videorecorder->handleRequest($request);
     }
 
-    public function testHandleRequestRecordsRequestWhenModeIsOnceAndCassetteIsNew()
+    public function testHandleRequestRecordsRequestWhenModeIsOnceAndCassetteIsNew(): void
     {
         $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
         $response = new Response(200, [], 'example response');
@@ -112,7 +113,7 @@ class VideorecorderTest extends TestCase
         $this->assertEquals($response, $videorecorder->handleRequest($request));
     }
 
-    public function testHandleRequestThrowsExceptionWhenModeIsOnceAndCassetteIsOld()
+    public function testHandleRequestThrowsExceptionWhenModeIsOnceAndCassetteIsOld(): void
     {
         $this->expectException(
             'LogicException',
@@ -139,7 +140,13 @@ class VideorecorderTest extends TestCase
         $videorecorder->handleRequest($request);
     }
 
-    protected function getClientMock($request, $response)
+    /**
+     * @param Request $request
+     * @param Response $response
+     *
+     * @return MockObject|HttpClient
+     */
+    protected function getClientMock(Request $request, Response $response): MockObject
     {
         $client = $this->getMockBuilder(HttpClient::class)->setMethods(['send'])->getMock();
         $client
@@ -151,8 +158,20 @@ class VideorecorderTest extends TestCase
         return $client;
     }
 
-    protected function getCassetteMock($request, $response, $mode = VCR::MODE_NEW_EPISODES, $isNew = false)
-    {
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param string $mode
+     * @param bool $isNew
+     *
+     * @return MockObject&Cassette
+     */
+    protected function getCassetteMock(
+        Request $request,
+        Response $response,
+        string $mode = VCR::MODE_NEW_EPISODES,
+        bool $isNew = false
+    ): MockObject {
         $cassette = $this->getMockBuilder(Cassette::class)
             ->disableOriginalConstructor()
             ->setMethods(['record', 'playback', 'isNew', 'getName'])

@@ -20,7 +20,7 @@ class AsyncTest extends TestCase
         \VCR\VCR::configure()->setCassettePath(vfsStream::url('testDir'));
     }
 
-    public function testAsyncLock()
+    public function testAsyncLock(): void
     {
         \VCR\VCR::turnOn();
         \VCR\VCR::insertCassette('test-cassette.yml');
@@ -38,7 +38,7 @@ class AsyncTest extends TestCase
         \VCR\VCR::turnOff();
     }
 
-    protected function assertValidGETResponse($info)
+    protected function assertValidGETResponse($info): void
     {
         $this->assertIsArray($info, 'Response is not an array.');
         $this->assertArrayHasKey('0', $info, 'API did not return any value.');

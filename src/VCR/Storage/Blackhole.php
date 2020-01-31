@@ -32,15 +32,15 @@ class Blackhole implements Storage
         throw new \BadMethodCallException('Not implemented');
     }
 
-    public function next()
+    public function next(): void
     {
     }
 
-    public function rewind()
+    public function rewind(): void
     {
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return false;
     }

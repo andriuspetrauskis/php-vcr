@@ -18,12 +18,12 @@ class AfterHttpRequestEventTest extends TestCase
         $this->event = new AfterHttpRequestEvent(new Request('GET', 'http://example.com'), new Response(200));
     }
 
-    public function testGetRequest()
+    public function testGetRequest(): void
     {
         $this->assertInstanceOf(Request::class, $this->event->getRequest());
     }
 
-    public function testGetResponse()
+    public function testGetResponse(): void
     {
         $this->assertInstanceOf(Response::class, $this->event->getResponse());
     }

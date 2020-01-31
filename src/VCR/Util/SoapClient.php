@@ -53,7 +53,7 @@ class SoapClient extends \SoapClient
      *                           Use this where a response is not expected.
      * @return string|null  The XML SOAP response (or null if $one_way is set).
      */
-    public function __doRequest($request, $location, $action, $version, $one_way = 0)
+    public function __doRequest($request, $location, $action, $version, $one_way = 0): ?string
     {
         // Save a copy of the request, not the request itself -- see issue #153
         $this->request = (string) $request;
@@ -74,7 +74,7 @@ class SoapClient extends \SoapClient
     /**
      * @inheritdoc
      */
-    public function __getLastRequest()
+    public function __getLastRequest(): ?string
     {
         return $this->request;
     }
@@ -82,7 +82,7 @@ class SoapClient extends \SoapClient
     /**
      * @inheritdoc
      */
-    public function __getLastResponse()
+    public function __getLastResponse(): ?string
     {
         return $this->response;
     }
