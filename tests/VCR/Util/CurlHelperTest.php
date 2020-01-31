@@ -258,7 +258,9 @@ class CurlHelperTest extends TestCase
             'Content-Length' => 0,
         ];
         $response = new Response($status, $headers, 'example response');
+        ob_start();
         CurlHelper::handleOutput($response, $curlOptions, curl_init());
+        ob_end_clean();
 
         $expected = [
             'HTTP/1.1 200 OK',
