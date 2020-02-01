@@ -70,7 +70,7 @@ class Request
                 );
             }
 
-            if (call_user_func_array($matcher, [$this, $request]) === false) {
+            if ($matcher($this, $request) === false) {
                 return false;
             }
         }

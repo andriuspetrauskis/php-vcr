@@ -173,7 +173,7 @@ class StreamProcessor
     public function stream_open(string $path, string $mode, int $options, ?string &$openedPath): bool
     {
         // file_exists catches paths like /dev/urandom that are missed by is_file.
-        if ('r' === substr($mode, 0, 1) && !file_exists($path)) {
+        if (strpos($mode, 'r') === 0 && !file_exists($path)) {
             return false;
         }
 
@@ -304,7 +304,7 @@ class StreamProcessor
     {
         $this->restore();
         if ($flags & STREAM_URL_STAT_QUIET) {
-            set_error_handler(function () {
+            set_error_handler(static function () {
                 // Use native error handler
                 return false;
             });

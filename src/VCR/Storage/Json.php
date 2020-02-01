@@ -66,12 +66,12 @@ class Json extends AbstractStorage
                 $record .= $char;
             }
 
-            if ($isInRecord && $char === '}' && $depth == 0) {
+            if ($isInRecord && $char === '}' && $depth === 0) {
                 break;
             }
         }
 
-        if ($char == false) {
+        if ($char === false) {
             $this->isEOF = true;
         }
 
@@ -97,7 +97,7 @@ class Json extends AbstractStorage
      */
     public function valid(): bool
     {
-        if (is_null($this->current)) {
+        if ($this->current === null) {
             $this->next();
         }
 

@@ -40,7 +40,7 @@ class StreamProcessorTest extends TestCase
             ->setMethods(['intercept', 'restore', 'appendFiltersToStream', 'shouldProcess'])
             ->getMock();
 
-        if (!is_null($shouldProcess)) {
+        if ($shouldProcess !== null) {
             $mock->expects($this->once())->method('shouldProcess')->will($this->returnValue($shouldProcess));
         }
 
@@ -50,6 +50,7 @@ class StreamProcessorTest extends TestCase
             $mock->expects($this->never())->method('appendFiltersToStream');
         }
 
+        $fullPath = null;
         $mock->stream_open('tests/fixtures/streamprocessor_data', 'r', $option, $fullPath);
         $mock->stream_close();
     }
@@ -78,7 +79,7 @@ class StreamProcessorTest extends TestCase
     public function testStreamOpenShouldNotFailOnNonExistingFile($fileMode): void
     {
         $test = $this;
-        set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($test) {
+        set_error_handler(static function ($errno, $errstr, $errfile, $errline) use ($test) {
             $test->fail('should not throw errors');
         });
 
@@ -96,7 +97,7 @@ class StreamProcessorTest extends TestCase
     public function testUrlStatSuccessfully(): void
     {
         $test = $this;
-        set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($test) {
+        set_error_handler(static function ($errno, $errstr, $errfile, $errline) use ($test) {
             $test->fail('should not throw errors');
         });
 
@@ -132,7 +133,7 @@ class StreamProcessorTest extends TestCase
     public function testDirOpendirNotFound(): void
     {
         $test = $this;
-        set_error_handler(function ($errno, $errstr, $errfile, $errline) use ($test) {
+        set_error_handler(static function ($errno, $errstr, $errfile, $errline) use ($test) {
             $test->assertStringContainsString('opendir(not_found', $errstr);
         });
 
@@ -165,7 +166,7 @@ class StreamProcessorTest extends TestCase
 
     public function testStreamMetadata(): void
     {
-        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+        if (PHP_VERSION_ID < 50400) {
             $this->markTestSkipped('Behavior is only applicable and testable for PHP 5.4+');
         }
 

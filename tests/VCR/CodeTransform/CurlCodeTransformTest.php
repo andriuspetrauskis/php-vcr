@@ -2,7 +2,6 @@
 
 namespace VCR\CodeTransform;
 
-use lapistano\ProxyObject\ProxyBuilder;
 use PHPUnit\Framework\TestCase;
 
 class CurlCodeTransformTest extends TestCase

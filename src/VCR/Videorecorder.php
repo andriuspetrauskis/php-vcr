@@ -180,11 +180,11 @@ class Videorecorder
     {
         Assertion::true($this->isOn, 'Please turn on VCR before inserting a cassette, use: VCR::turnOn().');
 
-        if (!is_null($this->cassette)) {
+        if ($this->cassette !== null) {
             $this->eject();
         }
 
-        $storage = $this->factory->get('Storage', [$cassetteName]);
+        $storage = $this->factory::get('Storage', [$cassetteName]);
 
         $this->cassette = new Cassette($cassetteName, $this->config, $storage);
         $this->enableLibraryHooks();
@@ -233,7 +233,7 @@ class Videorecorder
         $response = $this->cassette->playback($request);
 
         // Playback succeeded and the recorded response can be returned.
-        if (!empty($response)) {
+        if ($response !== null) {
             $event = new AfterPlaybackEvent($request, $response, $this->cassette);
             $this->dispatch(VCREvents::VCR_AFTER_PLAYBACK, $event);
             return $response;
@@ -282,7 +282,7 @@ class Videorecorder
     protected function disableLibraryHooks(): void
     {
         foreach ($this->config->getLibraryHooks() as $hookClass) {
-            $hook = $this->factory->get($hookClass);
+            $hook = $this->factory::get($hookClass);
             $hook->disable();
         }
     }
@@ -298,7 +298,7 @@ class Videorecorder
     {
         $self = $this;
         foreach ($this->config->getLibraryHooks() as $hookClass) {
-            $hook = $this->factory->get($hookClass);
+            $hook = $this->factory::get($hookClass);
             $hook->enable(
                 static function (Request $request) use ($self) {
                     return $self->handleRequest($request);

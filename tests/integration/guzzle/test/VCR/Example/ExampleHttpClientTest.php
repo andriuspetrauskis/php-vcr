@@ -59,9 +59,7 @@ class ExampleHttpClientTest extends TestCase
     {
         $exampleClient = new ExampleHttpClient();
 
-        $response = $exampleClient->get(self::TEST_GET_URL);
-
-        return $response;
+        return $exampleClient->get(self::TEST_GET_URL);
     }
 
     protected function requestPOST()

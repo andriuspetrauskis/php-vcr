@@ -2,11 +2,9 @@
 
 namespace VCR\Util;
 
-use lapistano\ProxyObject\ProxyBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use VCR\LibraryHooks\SoapHook;
-use VCR\VCRException;
 use VCR\Util\SoapClient;
 
 class SoapClientTest extends TestCase
@@ -111,8 +109,6 @@ class SoapClientTest extends TestCase
 
     public function testDoRequestExpectingException(): void
     {
-        $exception = '\LogicException';
-
         $hook = $this->getLibraryHookMock(true);
         $hook
             ->expects($this->once())
@@ -126,7 +122,7 @@ class SoapClientTest extends TestCase
         $client = new SoapClient(self::WSDL);
         $client->setLibraryHook($hook);
 
-        $this->expectException($exception);
+        $this->expectException(\LogicException::class);
 
         $client->__doRequest('Knorx ist groß', self::WSDL, self::ACTION, SOAP_1_2);
     }

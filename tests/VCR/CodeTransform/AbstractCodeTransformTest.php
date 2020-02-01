@@ -24,7 +24,7 @@ class AbstractCodeTransformTest extends TestCase
             ->setMethods($defaults)
             ->getMockForAbstractClass();
 
-        if (in_array('transformCode', $methods)) {
+        if (in_array('transformCode', $methods, true)) {
             $filter
                 ->expects($this->once())
                 ->method('transformCode')

@@ -21,8 +21,11 @@ abstract class AbstractCodeTransform extends \php_user_filter
     public function register(): void
     {
         if (!in_array(static::NAME, stream_get_filters(), true)) {
-            $isRegistered = stream_filter_register(static::NAME, get_called_class());
-            Assertion::true($isRegistered, sprintf('Failed registering stream filter "%s" on stream "%s"', get_called_class(), static::NAME));
+            $isRegistered = stream_filter_register(static::NAME, static::class);
+            Assertion::true(
+                $isRegistered,
+                sprintf('Failed registering stream filter "%s" on stream "%s"', static::class, static::NAME)
+            );
         }
     }
 

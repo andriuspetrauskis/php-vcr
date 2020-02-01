@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
  */
 class CassetteTest extends TestCase
 {
-
     /**
      * @var Cassette
      */

@@ -92,7 +92,7 @@ class Yaml extends AbstractStorage
             }
         }
 
-        if ($line == false) {
+        if ($line === false) {
             $this->isEOF = true;
         }
 
@@ -119,10 +119,10 @@ class Yaml extends AbstractStorage
      */
     public function valid(): bool
     {
-        if (is_null($this->current)) {
+        if ($this->current === null) {
             $this->next();
         }
 
-        return ! is_null($this->current) && $this->isValidPosition;
+        return $this->current !== null && $this->isValidPosition;
     }
 }

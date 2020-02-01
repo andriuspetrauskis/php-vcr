@@ -23,7 +23,7 @@ class VCRFactoryTest extends TestCase
 {
     /**
      * @dataProvider instanceProvider
-     * @covers VCR\VCRFactory::createVCRVideorecorder()
+     * @covers \VCR\VCRFactory::createVCRVideorecorder()
      */
     public function testCreateInstances(string $instance): void
     {
@@ -55,7 +55,7 @@ class VCRFactoryTest extends TestCase
         VCRFactory::get(Configuration::class)->setStorage($storage);
         VCRFactory::get(Configuration::class)->setCassettePath(vfsStream::url('test/'));
 
-        $instance = VCRFactory::get('Storage', [rand()]);
+        $instance = VCRFactory::get('Storage', [mt_rand()]);
 
         $this->assertInstanceOf($className, $instance);
     }

@@ -122,13 +122,13 @@ class ResponseTest extends TestCase
         $this->assertEquals($curlOptions, $response->getCurlInfo());
     }
 
-    public function testRestoreCurlInfoFromArray()
+    public function testRestoreCurlInfoFromArray(): void
     {
         $expectedCurlOptions = ['option' => 'value'];
         $response = new Response(200, [], null, $expectedCurlOptions);
         $restoredResponse = Response::fromArray($response->toArray());
 
-        $this->assertEquals($expectedCurlOptions, $response->getCurlInfo());
+        $this->assertEquals($expectedCurlOptions, $restoredResponse->getCurlInfo());
     }
 
     public function testToArray(): void

@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
  */
 class YamlTest extends TestCase
 {
+    private $filePath;
+    private $yamlObject;
+
     public function setUp(): void
     {
         vfsStream::setup('test');

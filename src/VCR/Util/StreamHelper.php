@@ -26,7 +26,7 @@ class StreamHelper
         $http = self::getHttpOptionsFromContext($context);
         $request = $existing;
 
-        if (empty($request)) {
+        if ($request === null) {
             $method = !empty($http['method']) ? $http['method'] : 'GET';
             $request = new Request($method, $path, []);
         }

@@ -209,7 +209,7 @@ class CurlHelperTest extends TestCase
 
         $output = CurlHelper::handleOutput($response, $curlOptions, curl_init());
 
-        $this->assertEquals($response->getBody(true), $output);
+        $this->assertEquals($response->getBody(), $output);
     }
 
     public function testHandleResponseEchosBody(): void
@@ -220,7 +220,7 @@ class CurlHelperTest extends TestCase
         CurlHelper::handleOutput($response, [], curl_init());
         $output = ob_get_clean();
 
-        $this->assertEquals($response->getBody(true), $output);
+        $this->assertEquals($response->getBody(), $output);
     }
 
     public function testHandleResponseIncludesHeader(): void

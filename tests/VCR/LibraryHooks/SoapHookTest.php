@@ -97,7 +97,7 @@ class SoapHookTest extends TestCase
     protected function getContentCheckCallback(): Closure
     {
         $testClass = $this;
-        return Closure::fromCallable(function () use ($testClass) {
+        return Closure::fromCallable(static function () use ($testClass) {
             return new Response(200, [], $testClass->expected);
         });
     }
@@ -109,7 +109,7 @@ class SoapHookTest extends TestCase
     protected function getHeadersCheckCallback(array $expectedHeaders): Closure
     {
         $test = $this;
-        return Closure::fromCallable(function (Request $request) use ($test, $expectedHeaders) {
+        return Closure::fromCallable(static function (Request $request) use ($test, $expectedHeaders) {
             foreach ($expectedHeaders as $expectedHeaderName => $expectedHeader) {
                 $test->assertEquals($expectedHeader, $request->getHeader($expectedHeaderName));
             }

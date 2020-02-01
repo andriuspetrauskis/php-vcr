@@ -114,8 +114,7 @@ class CurlHookTest extends TestCase
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, false);
         ob_start();
         curl_exec($curlHandle);
-        $actual = ob_get_contents();
-        ob_end_clean();
+        $actual = ob_get_clean();
         curl_close($curlHandle);
 
         $this->curlHook->disable();
@@ -296,11 +295,11 @@ class CurlHookTest extends TestCase
         curl_multi_add_handle($curlMultiHandle, $curlHandle2);
 
         $stillRunning = null;
-        $mh = curl_multi_exec($curlMultiHandle, $stillRunning);
+        curl_multi_exec($curlMultiHandle, $stillRunning);
 
-        $lastInfo       = curl_multi_info_read($mh);
-        $secondLastInfo = curl_multi_info_read($mh);
-        $afterLastInfo  = curl_multi_info_read($mh);
+        $lastInfo       = curl_multi_info_read($curlMultiHandle);
+        $secondLastInfo = curl_multi_info_read($curlMultiHandle);
+        $afterLastInfo  = curl_multi_info_read($curlMultiHandle);
 
         curl_multi_remove_handle($curlMultiHandle, $curlHandle1);
         curl_multi_remove_handle($curlMultiHandle, $curlHandle2);
@@ -378,7 +377,7 @@ class CurlHookTest extends TestCase
     protected function getTestCallback(int $statusCode = 200): Closure
     {
         $testClass = $this;
-        return Closure::fromCallable(function () use ($statusCode, $testClass) {
+        return Closure::fromCallable(static function () use ($statusCode, $testClass) {
             return new Response($statusCode, [], $testClass->expected);
         });
     }

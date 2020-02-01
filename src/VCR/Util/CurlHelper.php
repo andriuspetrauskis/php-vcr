@@ -116,7 +116,7 @@ class CurlHelper
                 break;
         }
 
-        if (!is_null($info)) {
+        if ($info !== null) {
             return $info;
         }
 
@@ -154,7 +154,7 @@ class CurlHelper
                         $request->setPostField($name, $fieldValue);
                     }
 
-                    if (count($value) == 0) {
+                    if (count($value) === 0) {
                         $request->removeHeader('Content-Type');
                     }
                 } elseif (!empty($value)) {
@@ -198,7 +198,7 @@ class CurlHelper
     public static function validateCurlPOSTBody(Request $request, $curlHandle = null): void
     {
         $readFunction = $request->getCurlOption(CURLOPT_READFUNCTION);
-        if (is_null($readFunction)) {
+        if ($readFunction === null) {
             return;
         }
         
@@ -210,7 +210,7 @@ class CurlHelper
         
         $bodySize = $request->getCurlOption(CURLOPT_INFILESIZE);
         Assertion::notEmpty($bodySize, 'To set a CURLOPT_READFUNCTION, CURLOPT_INFILESIZE must be set.');
-        $body = call_user_func_array($readFunction, [$curlHandle, fopen('php://memory', 'r'), $bodySize]);
+        $body = $readFunction($curlHandle, fopen('php://memory', 'r'), $bodySize);
         $request->setBody($body);
     }
 }

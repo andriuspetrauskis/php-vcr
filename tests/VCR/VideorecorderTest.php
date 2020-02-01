@@ -2,7 +2,6 @@
 
 namespace VCR;
 
-use lapistano\ProxyObject\ProxyBuilder;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

@@ -27,7 +27,7 @@ class HttpClient
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request->getMethod());
         curl_setopt($ch, CURLOPT_HTTPHEADER, HttpUtil::formatHeadersForCurl($request->getHeaders()));
-        if (!is_null($request->getBody())) {
+        if ($request->getBody() !== null) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getBody());
         }
 

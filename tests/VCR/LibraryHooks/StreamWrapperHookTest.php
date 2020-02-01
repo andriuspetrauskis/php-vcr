@@ -16,7 +16,7 @@ class StreamWrapperHookTest extends TestCase
         $streamWrapper = new StreamWrapperHook();
 
         $testClass = $this;
-        $streamWrapper->enable(function ($request) use ($testClass) {
+        $streamWrapper->enable(static function ($request) use ($testClass) {
             $testClass->assertInstanceOf(Request::class, $request);
         });
         $this->assertTrue($streamWrapper->isEnabled());
@@ -32,7 +32,7 @@ class StreamWrapperHookTest extends TestCase
     public function testSeek(): void
     {
         $hook = new StreamWrapperHook();
-        $hook->enable(function ($request) {
+        $hook->enable(static function () {
             return new Response(200, [], 'A Test');
         });
         $hook->stream_open('http://example.com', 'r', 0, $openedPath);

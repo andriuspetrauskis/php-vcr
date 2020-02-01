@@ -47,7 +47,9 @@ class TestStorage extends AbstractStorage
 
     public function next()
     {
-        [$this->position, $this->current] = each($this->recording);
+        $this->position = key($this->recording);
+        $this->current = current($this->recording);
+        next($recording);
 
         return $this->current;
     }
