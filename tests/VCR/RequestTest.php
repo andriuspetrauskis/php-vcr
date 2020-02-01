@@ -63,8 +63,8 @@ class RequestTest extends TestCase
     public function testMatchesThrowsExceptionIfMatcherNotFound(): void
     {
         $request = new Request('POST', 'http://example.com', ['User-Agent' => 'Unit-Test']);
-        $this->expectException(
-            \BadFunctionCallException::class,
+        $this->expectException(\BadFunctionCallException::class);
+        $this->expectDeprecationMessage(
             "Matcher could not be executed. Array\n(\n    [0] => some\n    [1] => method\n)\n"
         );
         $this->request->matches($request, [['some', 'method']]);

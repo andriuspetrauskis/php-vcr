@@ -20,10 +20,8 @@ class VCRTest extends TestCase
     public function testUseStaticCallsNotInitialized(): void
     {
         VCR::configure()->enableLibraryHooks(['stream_wrapper']);
-        $this->expectException(
-            VCRException::class,
-            'Please turn on VCR before inserting a cassette, use: VCR::turnOn()'
-        );
+        $this->expectException(VCRException::class);
+        $this->expectExceptionMessage('Please turn on VCR before inserting a cassette, use: VCR::turnOn()');
         VCR::insertCassette('some_name');
     }
 
@@ -101,8 +99,8 @@ class VCRTest extends TestCase
 
     public function testShouldThrowExceptionIfNoCassettePresent(): void
     {
-        $this->expectException(
-            'BadMethodCallException',
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage(
             'Invalid http request. No cassette inserted. Please make sure to insert '
             . "a cassette in your unit test using VCR::insertCassette('name');"
         );
