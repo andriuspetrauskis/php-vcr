@@ -172,7 +172,7 @@ class CurlHelperTest extends TestCase
         $this->expectException(VCRException::class, 'To set a CURLOPT_READFUNCTION, CURLOPT_INFILESIZE must be set.');
         $request = new Request('POST', 'http://example.com');
 
-        $callback = function ($curlHandle, $fileHandle, $size) {
+        $callback = static function ($curlHandle, $fileHandle, $size) {
         };
 
         CurlHelper::setCurlOptionOnRequest($request, CURLOPT_READFUNCTION, $callback, curl_init());
@@ -185,7 +185,7 @@ class CurlHelperTest extends TestCase
         $request = new Request('POST', 'http://example.com');
 
         $test = $this;
-        $callback = function ($curlHandle, $fileHandle, $size) use ($test, $expected) {
+        $callback = static function ($curlHandle, $fileHandle, $size) use ($test, $expected) {
             $test->assertIsResource($curlHandle);
             $test->assertIsResource($fileHandle);
             $test->assertEquals(strlen($expected), $size);
@@ -245,7 +245,7 @@ class CurlHelperTest extends TestCase
     {
         $actualHeaders = [];
         $curlOptions = [
-            CURLOPT_HEADERFUNCTION => function ($ch, $header) use (&$actualHeaders) {
+            CURLOPT_HEADERFUNCTION => static function ($ch, $header) use (&$actualHeaders) {
                 $actualHeaders[] = $header;
             },
         ];
@@ -276,7 +276,7 @@ class CurlHelperTest extends TestCase
         $expectedCh = curl_init();
         $expectedBody = 'example response';
         $curlOptions = [
-            CURLOPT_WRITEFUNCTION => function ($ch, $body) use ($test, $expectedCh, $expectedBody) {
+            CURLOPT_WRITEFUNCTION => static function ($ch, $body) use ($test, $expectedCh, $expectedBody) {
                 $test->assertEquals($expectedCh, $ch);
                 $test->assertEquals($expectedBody, $body);
 

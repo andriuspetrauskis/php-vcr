@@ -98,7 +98,7 @@ class ConfigurationTest extends TestCase
     public function testAddRequestMatcherFailsWithNoName(): void
     {
         $this->expectException(VCRException::class, "A request matchers name must be at least one character long. Found ''");
-        $expected = function ($first, $second) {
+        $expected = static function ($first, $second) {
             return true;
         };
         $this->config->addRequestMatcher('', $expected);
@@ -106,7 +106,7 @@ class ConfigurationTest extends TestCase
 
     public function testAddRequestMatchers(): void
     {
-        $expected = function () {
+        $expected = static function () {
             return true;
         };
         $this->config->addRequestMatcher('new_matcher', $expected);

@@ -75,7 +75,7 @@ class CurlHookTest extends TestCase
     {
         $intercepted = false;
         $this->curlHook->enable(
-            function () use (&$intercepted) {
+            static function () use (&$intercepted) {
                 $intercepted = true;
             }
         );
@@ -126,7 +126,7 @@ class CurlHookTest extends TestCase
     {
         $testClass = $this;
         $this->curlHook->enable(
-            function (Request $request) use ($testClass) {
+            static function (Request $request) use ($testClass) {
                 $testClass->assertEquals(
                     ['para1' => 'val1', 'para2' => 'val2'],
                     $request->getPostFields(),
@@ -147,7 +147,7 @@ class CurlHookTest extends TestCase
     {
         $testClass = $this;
         $this->curlHook->enable(
-            function (Request $request) use ($testClass) {
+            static function (Request $request) use ($testClass) {
                 $testClass->assertEquals(
                     ['para1' => 'val1', 'para2' => 'val2'],
                     $request->getPostFields(),
@@ -277,7 +277,7 @@ class CurlHookTest extends TestCase
         $testClass = $this;
         $callCount = 0;
         $this->curlHook->enable(
-            function (Request $request) use ($testClass, &$callCount) {
+            static function (Request $request) use ($testClass, &$callCount) {
                 $testClass->assertEquals(
                     'example.com',
                     $request->getHost(),
@@ -331,7 +331,7 @@ class CurlHookTest extends TestCase
     {
         $testClass = $this;
         $this->curlHook->enable(
-            function () use ($testClass) {
+            static function () use ($testClass) {
                 $testClass->fail('This request should not have been intercepted.');
             }
         );
@@ -354,7 +354,7 @@ class CurlHookTest extends TestCase
     {
         $testClass = $this;
         $this->curlHook->enable(
-            function (Request $request) use ($testClass) {
+            static function (Request $request) use ($testClass) {
                 $testClass->assertEquals(
                     'GET',
                     $request->getMethod(),
