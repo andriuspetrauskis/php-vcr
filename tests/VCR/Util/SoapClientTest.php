@@ -19,17 +19,9 @@ class SoapClientTest extends TestCase
      */
     protected function getLibraryHookMock(bool $enabled): MockObject
     {
-        $hookMock = $this->getMockBuilder(SoapHook::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['isEnabled', 'doRequest'])
-            ->getMock();
-
-        $hookMock
-            ->expects($this->any())
-            ->method('isEnabled')
-            ->will($this->returnValue($enabled));
-
-        return $hookMock;
+        return $this->createConfiguredMock(SoapHook::class, [
+            'isEnabled' => $enabled
+        ]);
     }
 
     public function testDoRequest(): void
@@ -46,7 +38,7 @@ class SoapClientTest extends TestCase
                 $this->isType('string'),
                 $this->isType('integer')
             )
-            ->will($this->returnValue($expected));
+            ->willReturn($expected);
 
         $client = new SoapClient(self::WSDL);
         $client->setLibraryHook($hook);
@@ -60,7 +52,10 @@ class SoapClientTest extends TestCase
     public function testDoRequestOneWayEnabled(): void
     {
         $hook = $this->getLibraryHookMock(true);
-        $hook->expects($this->once())->method('doRequest')->will($this->returnValue('some value'));
+        $hook
+            ->expects($this->once())
+            ->method('doRequest')
+            ->willReturn('some value');
 
         $client = new SoapClient(self::WSDL);
         $client->setLibraryHook($hook);
@@ -72,7 +67,10 @@ class SoapClientTest extends TestCase
     {
         $expected = 'some value';
         $hook = $this->getLibraryHookMock(true);
-        $hook ->expects($this->once()) ->method('doRequest')->will($this->returnValue($expected));
+        $hook
+            ->expects($this->once())
+            ->method('doRequest')
+            ->willReturn($expected);
 
         $client = new SoapClient(self::WSDL);
         $client->setLibraryHook($hook);
@@ -85,11 +83,9 @@ class SoapClientTest extends TestCase
 
     public function testDoRequestHandlesHookDisabled(): void
     {
-        $client = $this->getMockBuilder(SoapClient::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['realDoRequest'])
-            ->getMock();
-
+        $client = $this->createPartialMock(SoapClient::class, [
+            'realDoRequest'
+        ]);
         $client
             ->expects($this->once())
             ->method('realDoRequest')
@@ -158,7 +154,10 @@ class SoapClientTest extends TestCase
         $response = 'some value';
 
         $hook = $this->getLibraryHookMock(true);
-        $hook->expects($this->once())->method('doRequest')->will($this->returnValue($response));
+        $hook
+            ->expects($this->once())
+            ->method('doRequest')
+            ->willReturn($response);
 
         $client = new SoapClient(self::WSDL);
         $client->setLibraryHook($hook);

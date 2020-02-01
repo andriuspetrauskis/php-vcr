@@ -32,7 +32,7 @@ class VideorecorderTest extends TestCase
         $configuration->enableLibraryHooks([]);
         $videorecorder = $this->getMockBuilder(Videorecorder::class)
             ->setConstructorArgs([$configuration, new Util\HttpClient(), VCRFactory::getInstance()])
-            ->setMethods(['eject'])
+            ->onlyMethods(['eject'])
             ->getMock();
 
         $videorecorder->expects($this->exactly(2))->method('eject');
@@ -147,12 +147,12 @@ class VideorecorderTest extends TestCase
      */
     protected function getClientMock(Request $request, Response $response): MockObject
     {
-        $client = $this->getMockBuilder(HttpClient::class)->setMethods(['send'])->getMock();
+        $client = $this->createMock(HttpClient::class);
         $client
             ->expects($this->once())
             ->method('send')
             ->with($request)
-            ->will($this->returnValue($response));
+            ->willReturn($response);
 
         return $client;
     }
@@ -171,18 +171,15 @@ class VideorecorderTest extends TestCase
         string $mode = VCR::MODE_NEW_EPISODES,
         bool $isNew = false
     ): MockObject {
-        $cassette = $this->getMockBuilder(Cassette::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['record', 'playback', 'isNew', 'getName'])
-            ->getMock();
+        $cassette = $this->createMock(Cassette::class);
         $cassette
             ->expects($this->once())
             ->method('playback')
             ->with($request)
-            ->will($this->returnValue(null));
+            ->willReturn(null);
         $cassette
             ->method('getName')
-            ->will($this->returnValue('foobar'));
+            ->willReturn('foobar');
 
         if (VCR::MODE_NEW_EPISODES === $mode || VCR::MODE_ONCE === $mode && $isNew === true) {
             $cassette
@@ -191,11 +188,11 @@ class VideorecorderTest extends TestCase
                 ->with($request, $response);
         }
 
-        if ($mode == 'once') {
+        if ($mode === 'once') {
             $cassette
                 ->expects($this->once())
                 ->method('isNew')
-                ->will($this->returnValue($isNew));
+                ->willReturn($isNew);
         }
 
         return $cassette;

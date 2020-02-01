@@ -35,13 +35,17 @@ class StreamProcessorTest extends TestCase
      */
     public function testStreamOpenShouldAppendFilters(bool $expected, int $option, bool $shouldProcess = null): void
     {
-        $mock = $this->getMockBuilder(StreamProcessor::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['intercept', 'restore', 'appendFiltersToStream', 'shouldProcess'])
-            ->getMock();
-
+        $mock = $this->createPartialMock(StreamProcessor::class, [
+            'intercept',
+            'restore',
+            'appendFiltersToStream',
+            'shouldProcess',
+        ]);
         if ($shouldProcess !== null) {
-            $mock->expects($this->once())->method('shouldProcess')->will($this->returnValue($shouldProcess));
+            $mock
+                ->expects($this->once())
+                ->method('shouldProcess')
+                ->willReturn($shouldProcess);
         }
 
         if ($expected) {
@@ -198,9 +202,6 @@ class StreamProcessorTest extends TestCase
      */
     protected function getStreamProcessorMock(): MockObject
     {
-        return $this->getMockBuilder(StreamProcessor::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['intercept', 'restore'])
-            ->getMock();
+        return $this->createPartialMock(StreamProcessor::class, ['intercept', 'restore']);
     }
 }

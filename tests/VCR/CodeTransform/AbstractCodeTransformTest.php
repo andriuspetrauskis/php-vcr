@@ -21,7 +21,7 @@ class AbstractCodeTransformTest extends TestCase
         );
 
         $filter = $this->getMockBuilder(AbstractCodeTransform::class)
-            ->setMethods($defaults)
+            ->onlyMethods($defaults)
             ->getMockForAbstractClass();
 
         if (in_array('transformCode', $methods, true)) {
