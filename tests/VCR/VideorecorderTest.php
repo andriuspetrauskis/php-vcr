@@ -48,18 +48,8 @@ class VideorecorderTest extends TestCase
         $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
         $response = new Response(200, [], 'example response');
         $client = $this->getClientMock($request, $response);
-        $configuration = new Configuration();
-        $configuration->enableLibraryHooks([]);
-        $configuration->setMode('new_episodes');
-
-        $videorecorder = new class($configuration, $client, VCRFactory::getInstance()) extends Videorecorder {
-            public function setCassette(Cassette $cassette): void
-            {
-                $this->cassette = $cassette;
-            }
-        };
-
-        $videorecorder->setCassette($this->getCassetteMock($request, $response));
+        $cassette = $this->getCassetteMock($request, $response);
+        $videorecorder = $this->getVideorecorderInstance($client, 'new_episodes', $cassette);
 
         $this->assertEquals($response, $videorecorder->handleRequest($request));
     }
@@ -74,19 +64,9 @@ class VideorecorderTest extends TestCase
 
         $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
         $response = new Response(200, [], 'example response');
-        $client = $this->getMockBuilder(HttpClient::class)->getMock();
-        $configuration = new Configuration();
-        $configuration->enableLibraryHooks([]);
-        $configuration->setMode('none');
-
-        $videorecorder = new class($configuration, $client, VCRFactory::getInstance()) extends Videorecorder {
-            public function setCassette(Cassette $cassette): void
-            {
-                $this->cassette = $cassette;
-            }
-        };
-
-        $videorecorder->setCassette($this->getCassetteMock($request, $response, 'none'));
+        $client = $this->createMock(HttpClient::class);
+        $cassette = $this->getCassetteMock($request, $response, 'none');
+        $videorecorder = $this->getVideorecorderInstance($client, 'none', $cassette);
 
         $videorecorder->handleRequest($request);
     }
@@ -96,18 +76,8 @@ class VideorecorderTest extends TestCase
         $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
         $response = new Response(200, [], 'example response');
         $client = $this->getClientMock($request, $response);
-        $configuration = new Configuration();
-        $configuration->enableLibraryHooks([]);
-        $configuration->setMode('once');
-
-        $videorecorder = new class($configuration, $client, VCRFactory::getInstance()) extends Videorecorder {
-            public function setCassette(Cassette $cassette): void
-            {
-                $this->cassette = $cassette;
-            }
-        };
-
-        $videorecorder->setCassette($this->getCassetteMock($request, $response, 'once', true));
+        $cassette = $this->getCassetteMock($request, $response, 'once', true);
+        $videorecorder = $this->getVideorecorderInstance($client, 'once', $cassette);
 
         $this->assertEquals($response, $videorecorder->handleRequest($request));
     }
@@ -122,19 +92,9 @@ class VideorecorderTest extends TestCase
 
         $request = new Request('GET', 'http://example.com', ['User-Agent' => 'Unit-Test']);
         $response = new Response(200, [], 'example response');
-        $client = $this->getMockBuilder(HttpClient::class)->getMock();
-        $configuration = new Configuration();
-        $configuration->enableLibraryHooks([]);
-        $configuration->setMode('once');
-
-        $videorecorder = new class($configuration, $client, VCRFactory::getInstance()) extends Videorecorder {
-            public function setCassette(Cassette $cassette): void
-            {
-                $this->cassette = $cassette;
-            }
-        };
-
-        $videorecorder->setCassette($this->getCassetteMock($request, $response, 'once', false));
+        $client = $this->createMock(HttpClient::class);
+        $cassette = $this->getCassetteMock($request, $response, 'once', false);
+        $videorecorder = $this->getVideorecorderInstance($client, 'once', $cassette);
 
         $videorecorder->handleRequest($request);
     }
@@ -196,5 +156,19 @@ class VideorecorderTest extends TestCase
         }
 
         return $cassette;
+    }
+
+    private function getVideorecorderInstance(HttpClient $client, string $mode, Cassette $cassette): Videorecorder
+    {
+        $configuration = new Configuration();
+        $configuration->enableLibraryHooks([]);
+        $configuration->setMode($mode);
+
+        $videoRecorder = new Videorecorder($configuration, $client, VCRFactory::getInstance());
+        (function () use ($cassette) {
+            $this->cassette = $cassette;
+        })->call($videoRecorder);
+
+        return $videoRecorder;
     }
 }
