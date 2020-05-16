@@ -10,24 +10,24 @@ use PHPUnit\Framework\TestCase;
  */
 class ExampleHttpClientTest extends TestCase
 {
-    const TEST_GET_URL = 'https://api.chew.pro/trbmb';
-    const TEST_POST_URL = 'https://httpbin.org/post';
-    const TEST_POST_BODY = '{"foo":"bar"}';
+    private const TEST_GET_URL = 'https://api.chew.pro/trbmb';
+    private const TEST_POST_URL = 'https://httpbin.org/post';
+    private const TEST_POST_BODY = '{"foo":"bar"}';
 
-    protected $ignoreHeaders = array(
+    protected $ignoreHeaders = [
         'Accept',
         'Connect-Time',
         'Total-Route-Time',
         'X-Request-Id',
-    );
+    ];
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('testDir');
         \VCR\VCR::configure()->setCassettePath(vfsStream::url('testDir'));
     }
 
-    public function testRequestGET()
+    public function testRequestGET(): void
     {
         \VCR\VCR::turnOn();
         \VCR\VCR::insertCassette('test-cassette.yml');
@@ -41,7 +41,7 @@ class ExampleHttpClientTest extends TestCase
         \VCR\VCR::turnOff();
     }
 
-    public function testRequestPOST()
+    public function testRequestPOST(): void
     {
         \VCR\VCR::turnOn();
         \VCR\VCR::insertCassette('test-cassette.yml');
@@ -59,9 +59,7 @@ class ExampleHttpClientTest extends TestCase
     {
         $exampleClient = new ExampleHttpClient();
 
-        $response = $exampleClient->get(self::TEST_GET_URL);
-
-        return $response;
+        return $exampleClient->get(self::TEST_GET_URL);
     }
 
     protected function requestPOST()
@@ -87,19 +85,19 @@ class ExampleHttpClientTest extends TestCase
         return $info;
     }
 
-    protected function assertValidGETResponse($info)
+    protected function assertValidGETResponse($info): void
     {
-        $this->assertInternalType('array', $info, 'Response is not an array.');
+        $this->assertIsArray($info, 'Response is not an array.');
         $this->assertArrayHasKey('0', $info, 'API did not return any value.');
     }
 
-    protected function assertValidPOSTResponse($info)
+    protected function assertValidPOSTResponse($info): void
     {
-        $this->assertInternalType('array', $info, 'Response is not an array.');
+        $this->assertIsArray($info, 'Response is not an array.');
         $this->assertArrayHasKey('url', $info, "Key 'url' not found.");
         $this->assertEquals(self::TEST_POST_URL, $info['url'], "Value for key 'url' wrong.");
         $this->assertArrayHasKey('headers', $info, "Key 'headers' not found.");
-        $this->assertInternalType('array', $info['headers'], 'Headers is not an array.');
+        $this->assertIsArray($info['headers'], 'Headers is not an array.');
         $this->assertEquals(self::TEST_POST_BODY, $info['data'], 'Correct request body was not sent.');
     }
 }

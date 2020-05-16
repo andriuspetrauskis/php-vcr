@@ -13,7 +13,7 @@ use SoapFault;
  */
 class ExampleSoapClientTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         // Configure virtual filesystem.
         vfsStream::setup('testDir');
@@ -24,21 +24,21 @@ class ExampleSoapClientTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function testCallDirectly()
+    public function testCallDirectly(): void
     {
         $actual = $this->callSoap();
-        $this->assertInternalType('string', $actual);
+        $this->assertIsString('string', $actual);
         $this->assertEquals('twelve', $actual);
     }
 
-    public function testCallIntercepted()
+    public function testCallIntercepted(): void
     {
         $actual = $this->callSoapIntercepted();
-        $this->assertInternalType('string', $actual);
+        $this->assertIsString('string', $actual);
         $this->assertEquals('twelve', $actual);
     }
 
-    public function testCallDirectlyEqualsIntercepted()
+    public function testCallDirectlyEqualsIntercepted(): void
     {
         $this->assertEquals($this->callSoap(), $this->callSoapIntercepted());
     }
@@ -47,7 +47,7 @@ class ExampleSoapClientTest extends TestCase
      * This test performs a SOAP request on a buggy WSDL.
      * It checks that the non instrumented code and the instrumented code return the same exception.
      */
-    public function testCallSoapWithError()
+    public function testCallSoapWithError(): void
     {
         $nonInstrumentedException = null;
         try {
@@ -71,13 +71,13 @@ class ExampleSoapClientTest extends TestCase
         \VCR\VCR::turnOff();
     }
 
-    protected function callSoap()
+    protected function callSoap(): string
     {
         $soapClient = new ExampleSoapClient();
         return $soapClient->call(12);
     }
 
-    protected function callSoapIntercepted()
+    protected function callSoapIntercepted(): string
     {
         \VCR\VCR::turnOn();
         \VCR\VCR::insertCassette('test-cassette.yml');

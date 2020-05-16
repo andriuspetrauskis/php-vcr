@@ -7,16 +7,16 @@ use VCR\VCRException;
 
 class Assertion extends BaseAssertion
 {
-    protected static $exceptionClass = 'VCR\VCRException';
+    protected static $exceptionClass = VCRException::class;
 
-    const INVALID_CALLABLE = 910;
+    public const INVALID_CALLABLE = 910;
 
     /**
      * Assert that the value is callable.
      *
      * @param  mixed  $value Variable to check for a callable.
      * @param  string $message Exception message to show if value is not a callable.
-     * @param  null   $propertyPath
+     * @param  string|null $propertyPath
      * @throws \VCR\VCRException If specified value is not a callable.
      *
      * @return bool

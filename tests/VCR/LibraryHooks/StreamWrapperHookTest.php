@@ -11,29 +11,29 @@ use VCR\Response;
  */
 class StreamWrapperHookTest extends TestCase
 {
-    public function testEnable()
+    public function testEnable(): void
     {
         $streamWrapper = new StreamWrapperHook();
 
         $testClass = $this;
-        $streamWrapper->enable(function ($request) use ($testClass) {
-            $testClass->assertInstanceOf('\VCR\Request', $request);
+        $streamWrapper->enable(static function ($request) use ($testClass) {
+            $testClass->assertInstanceOf(Request::class, $request);
         });
         $this->assertTrue($streamWrapper->isEnabled());
     }
 
-    public function testDisable()
+    public function testDisable(): void
     {
         $streamWrapper = new StreamWrapperHook();
         $streamWrapper->disable();
         $this->assertFalse($streamWrapper->isEnabled());
     }
 
-    public function testSeek()
+    public function testSeek(): void
     {
         $hook = new StreamWrapperHook();
-        $hook->enable(function ($request) {
-            return new Response(200, array(), 'A Test');
+        $hook->enable(static function () {
+            return new Response(200, [], 'A Test');
         });
         $hook->stream_open('http://example.com', 'r', 0, $openedPath);
 

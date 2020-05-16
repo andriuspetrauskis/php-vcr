@@ -18,7 +18,7 @@ class SoapClient extends \SoapClient
     /**
      * @var array<string,mixed>
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * @var string
@@ -34,7 +34,7 @@ class SoapClient extends \SoapClient
      * @param mixed $wsdl
      * @param array<string,mixed> $options
      */
-    public function __construct($wsdl, array $options = array())
+    public function __construct($wsdl, array $options = [])
     {
         $this->options = $options;
         parent::__construct($wsdl, $options);
@@ -53,7 +53,7 @@ class SoapClient extends \SoapClient
      *                           Use this where a response is not expected.
      * @return string|null  The XML SOAP response (or null if $one_way is set).
      */
-    public function __doRequest($request, $location, $action, $version, $one_way = 0)
+    public function __doRequest($request, $location, $action, $version, $one_way = 0): ?string
     {
         // Save a copy of the request, not the request itself -- see issue #153
         $this->request = (string) $request;
@@ -74,7 +74,7 @@ class SoapClient extends \SoapClient
     /**
      * @inheritdoc
      */
-    public function __getLastRequest()
+    public function __getLastRequest(): ?string
     {
         return $this->request;
     }
@@ -82,7 +82,7 @@ class SoapClient extends \SoapClient
     /**
      * @inheritdoc
      */
-    public function __getLastResponse()
+    public function __getLastResponse(): ?string
     {
         return $this->response;
     }
@@ -124,7 +124,7 @@ class SoapClient extends \SoapClient
     protected function getLibraryHook(): SoapHook
     {
         if (empty($this->soapHook)) {
-            $this->soapHook = VCRFactory::get('VCR\LibraryHooks\SoapHook');
+            $this->soapHook = VCRFactory::get(SoapHook::class);
         }
 
         return $this->soapHook;

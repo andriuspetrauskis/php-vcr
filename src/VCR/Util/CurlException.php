@@ -12,7 +12,7 @@ class CurlException extends \Exception
      */
     public static function create($ch): self
     {
-        $e = new CurlException(curl_error($ch), curl_errno($ch));
+        $e = new self(curl_error($ch), curl_errno($ch));
         $e->info = curl_getinfo($ch);
         return $e;
     }

@@ -10,41 +10,44 @@ use PHPUnit\Framework\TestCase;
  */
 class YamlTest extends TestCase
 {
-    public function setUp()
+    private $filePath;
+    private $yamlObject;
+
+    public function setUp(): void
     {
         vfsStream::setup('test');
         $this->filePath = vfsStream::url('test/') . DIRECTORY_SEPARATOR . 'yaml_test';
         $this->yamlObject = new Yaml(vfsStream::url('test/'), 'yaml_test');
     }
 
-    public function testIterateOneObject()
+    public function testIterateOneObject(): void
     {
         $this->iterateAndTest(
             '-' . "\n"
             . '    para1: val1',
-            array(
-                array('para1' => 'val1'),
-            ),
+            [
+                ['para1' => 'val1'],
+            ],
             'Single yaml object was not parsed correctly.'
         );
     }
 
-    public function testIterateTwoObjects()
+    public function testIterateTwoObjects(): void
     {
         $this->iterateAndTest(
             '-' . "\n"
             . '    para1: val1' . "\n"
             . '-' . "\n"
             . '   para2: val2',
-            array(
-                array('para1' => 'val1'),
-                array('para2' => 'val2'),
-            ),
+            [
+                ['para1' => 'val1'],
+                ['para2' => 'val2'],
+            ],
             'Two yaml objects were not parsed correctly.'
         );
     }
 
-    public function testIterateFirstNestedObject()
+    public function testIterateFirstNestedObject(): void
     {
         $this->iterateAndTest(
             '-' . "\n"
@@ -52,15 +55,15 @@ class YamlTest extends TestCase
             . '        para2: val2' . "\n"
             . '-' . "\n"
             . '    para3: val3',
-            array(
-                array('para1' => array('para2' => 'val2')),
-                array('para3' => 'val3'),
-            ),
+            [
+                ['para1' => ['para2' => 'val2']],
+                ['para3' => 'val3'],
+            ],
             'Nested yaml objects were not parsed correctly.'
         );
     }
 
-    public function testIterateSecondNestedObject()
+    public function testIterateSecondNestedObject(): void
     {
         $this->iterateAndTest(
             '-' . "\n"
@@ -68,33 +71,33 @@ class YamlTest extends TestCase
             . '-' . "\n"
             . '    para2:' . "\n"
             . '        para3: val3' . "\n",
-            array(
-                array('para1' => 'val1'),
-                array('para2' => array('para3' => 'val3')),
-            ),
+            [
+                ['para1' => 'val1'],
+                ['para2' => ['para3' => 'val3']],
+            ],
             'Nested yaml objects were not parsed correctly.'
         );
     }
 
-    public function testIterateEmpty()
+    public function testIterateEmpty(): void
     {
         $this->iterateAndTest(
             '',
-            array(),
+            [],
             'Empty yaml was not parsed correctly.'
         );
     }
 
-    public function testStoreRecording()
+    public function testStoreRecording(): void
     {
-        $expected = array(
+        $expected = [
             'request' => 'some request',
             'response' => 'some response'
-        );
+        ];
 
         $this->yamlObject->storeRecording($expected);
 
-        $actual = array();
+        $actual = [];
         foreach ($this->yamlObject as $recording) {
             $actual[] = $recording;
         }
@@ -102,17 +105,17 @@ class YamlTest extends TestCase
         $this->assertEquals($expected, $actual[0], 'Storing and reading a recording failed.');
     }
 
-    public function testStoreTwoRecording()
+    public function testStoreTwoRecording(): void
     {
-        $expected = array(
-            'request'  => array('headers' => array('Content-Type' => 'application/json')),
-            'response' => array('body' => 'ok', 'status' => 200)
-        );
+        $expected = [
+            'request'  => ['headers' => ['Content-Type' => 'application/json']],
+            'response' => ['body' => 'ok', 'status' => 200]
+        ];
 
         $this->yamlObject->storeRecording($expected);
         $this->yamlObject->storeRecording($expected);
 
-        $actual = array();
+        $actual = [];
         foreach ($this->yamlObject as $recording) {
             $actual[] = $recording;
         }
@@ -121,11 +124,11 @@ class YamlTest extends TestCase
         $this->assertEquals($expected, $actual[1], 'Storing and reading second recording failed.');
     }
 
-    private function iterateAndTest($yaml, $expected, $message)
+    private function iterateAndTest($yaml, $expected, $message): void
     {
         file_put_contents($this->filePath, $yaml);
 
-        $actual = array();
+        $actual = [];
         foreach ($this->yamlObject as $object) {
             $actual[] = $object;
         }

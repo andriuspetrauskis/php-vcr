@@ -89,10 +89,10 @@ class Cassette
             return;
         }
 
-        $recording = array(
+        $recording = [
             'request'  => $request->toArray(),
             'response' => $response->toArray()
-        );
+        ];
 
         $this->storage->storeRecording($recording);
     }

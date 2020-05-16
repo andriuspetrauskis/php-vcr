@@ -6,6 +6,10 @@ use VCR\LibraryHooks\CurlHook;
 use VCR\LibraryHooks\SoapHook;
 use VCR\Storage\Storage;
 use VCR\Util\StreamProcessor;
+use VCR\Configuration;
+use VCR\Util\HttpClient;
+use VCR\CodeTransform\SoapCodeTransform;
+use VCR\CodeTransform\CurlCodeTransform;
 
 class VCRFactory
 {
@@ -14,7 +18,7 @@ class VCRFactory
      **/
     protected $config;
 
-    protected $mapping = array();
+    protected $mapping = [];
 
     protected static $instance;
 
@@ -25,7 +29,7 @@ class VCRFactory
      */
     protected function __construct(Configuration $config = null)
     {
-        $this->config = $config ?: $this->getOrCreate('VCR\Configuration');
+        $this->config = $config ?? $this->getOrCreate(Configuration::class);
     }
 
     /**
@@ -35,7 +39,7 @@ class VCRFactory
     {
         return new Videorecorder(
             $this->config,
-            $this->getOrCreate('VCR\Util\HttpClient'),
+            $this->getOrCreate(HttpClient::class),
             $this
         );
     }
@@ -61,16 +65,16 @@ class VCRFactory
     protected function createVCRLibraryHooksSoapHook(): SoapHook
     {
         return new LibraryHooks\SoapHook(
-            $this->getOrCreate('VCR\CodeTransform\SoapCodeTransform'),
-            $this->getOrCreate('VCR\Util\StreamProcessor')
+            $this->getOrCreate(SoapCodeTransform::class),
+            $this->getOrCreate(StreamProcessor::class)
         );
     }
 
     protected function createVCRLibraryHooksCurlHook(): CurlHook
     {
         return new LibraryHooks\CurlHook(
-            $this->getOrCreate('VCR\CodeTransform\CurlCodeTransform'),
-            $this->getOrCreate('VCR\Util\StreamProcessor')
+            $this->getOrCreate(CurlCodeTransform::class),
+            $this->getOrCreate(StreamProcessor::class)
         );
     }
 
@@ -98,7 +102,7 @@ class VCRFactory
      *
      * @return mixed An instance for specified class name and parameters.
      */
-    public static function get(string $className, array $params = array())
+    public static function get(string $className, array $params = [])
     {
         return self::getInstance()->getOrCreate($className, $params);
     }
@@ -111,16 +115,16 @@ class VCRFactory
      *
      * @return mixed
      */
-    public function getOrCreate(string $className, array $params = array())
+    public function getOrCreate(string $className, array $params = [])
     {
-        $key = $className . join('-', $params);
+        $key = $className . implode('-', $params);
 
         if (isset($this->mapping[$key])) {
             return $this->mapping[$key];
         }
 
         if (method_exists($this, $this->getMethodName($className))) {
-            $callback = array($this, $this->getMethodName($className));
+            $callback = [$this, $this->getMethodName($className)];
             $instance =  call_user_func_array($callback, $params);
         } else {
             $instance = new $className;

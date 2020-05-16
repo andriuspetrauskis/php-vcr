@@ -12,17 +12,17 @@ class TextUtilTest extends TestCase
     /**
      * @dataProvider curlMethodsProvider
      */
-    public function testUnderscoreToLowerCamelcase($expected, $method)
+    public function testUnderscoreToLowerCamelcase(string $expected, string $method): void
     {
         $this->assertEquals($expected, TextUtil::underscoreToLowerCamelcase($method));
     }
 
-    public function curlMethodsProvider()
+    public function curlMethodsProvider(): array
     {
-        return array(
-            'curl_multi_add_handler' => array('curlMultiAddHandler', 'curl_multi_add_handler'),
-            'curl_add_handler' => array('curlAddHandler', 'curl_add_handler'),
-            'not a curl function' => array('curlExec', 'curl_exec'),
-        );
+        return [
+            'curl_multi_add_handler' => ['curlMultiAddHandler', 'curl_multi_add_handler'],
+            'curl_add_handler' => ['curlAddHandler', 'curl_add_handler'],
+            'not a curl function' => ['curlExec', 'curl_exec'],
+        ];
     }
 }

@@ -16,7 +16,7 @@ class BeforeRecordEventTest extends TestCase
      */
     private $event;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->event = new BeforeRecordEvent(
             new Request('GET', 'http://example.com'),
@@ -25,18 +25,18 @@ class BeforeRecordEventTest extends TestCase
         );
     }
 
-    public function testGetRequest()
+    public function testGetRequest(): void
     {
-        $this->assertInstanceOf('VCR\Request', $this->event->getRequest());
+        $this->assertInstanceOf(Request::class, $this->event->getRequest());
     }
 
-    public function testGetResponse()
+    public function testGetResponse(): void
     {
-        $this->assertInstanceOf('VCR\Response', $this->event->getResponse());
+        $this->assertInstanceOf(Response::class, $this->event->getResponse());
     }
 
-    public function testGetCassette()
+    public function testGetCassette(): void
     {
-        $this->assertInstanceOf('VCR\Cassette', $this->event->getCassette());
+        $this->assertInstanceOf(Cassette::class, $this->event->getCassette());
     }
 }

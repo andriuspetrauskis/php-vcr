@@ -35,8 +35,8 @@ class Yaml extends AbstractStorage
     {
         parent::__construct($cassettePath, $cassetteName, '');
 
-        $this->yamlParser = $parser ?: new Parser();
-        $this->yamlDumper = $dumper ?: new Dumper();
+        $this->yamlParser = $parser ?? new Parser();
+        $this->yamlDumper = $dumper ?? new Dumper();
     }
 
     /**
@@ -54,7 +54,7 @@ class Yaml extends AbstractStorage
      *
      * @return void
      */
-    public function next()
+    public function next(): void
     {
         $recording = $this->yamlParser->parse($this->readNextRecord());
         $this->current = $recording[0] ?? null;
@@ -92,7 +92,7 @@ class Yaml extends AbstractStorage
             }
         }
 
-        if ($line == false) {
+        if ($line === false) {
             $this->isEOF = true;
         }
 
@@ -104,7 +104,7 @@ class Yaml extends AbstractStorage
      *
      * @return void
      */
-    public function rewind()
+    public function rewind(): void
     {
         rewind($this->handle);
         $this->isEOF = false;
@@ -117,12 +117,12 @@ class Yaml extends AbstractStorage
      *
      * @return boolean True if the current record is valid.
      */
-    public function valid()
+    public function valid(): bool
     {
-        if (is_null($this->current)) {
+        if ($this->current === null) {
             $this->next();
         }
 
-        return ! is_null($this->current) && $this->isValidPosition;
+        return $this->current !== null && $this->isValidPosition;
     }
 }

@@ -21,7 +21,7 @@ class Request
     /**
      * @var array<string,string>
      */
-    protected $headers = array();
+    protected $headers = [];
     /**
      * @var string|null
      */
@@ -29,22 +29,22 @@ class Request
     /**
      * @var array<int,array<string,string>>
      */
-    protected $postFiles = array();
+    protected $postFiles = [];
     /**
      * @var array<string,mixed> $post_fields
      */
-    protected $postFields = array();
+    protected $postFields = [];
     /**
      * @var array<int,mixed>
      */
-    protected $curlOptions = array();
+    protected $curlOptions = [];
 
     /**
      * @param string $method
      * @param string|null $url
      * @param array<string,string> $headers
      */
-    public function __construct(string $method, ?string $url, array $headers = array())
+    public function __construct(string $method, ?string $url, array $headers = [])
     {
         $this->method = $method;
         $this->headers = $headers;
@@ -70,7 +70,7 @@ class Request
                 );
             }
 
-            if (call_user_func_array($matcher, array($this, $request)) === false) {
+            if ($matcher($this, $request) === false) {
                 return false;
             }
         }
@@ -86,14 +86,14 @@ class Request
     public function toArray(): array
     {
         return array_filter(
-            array(
+            [
                 'method' => $this->getMethod(),
                 'url' => $this->getUrl(),
                 'headers' => $this->getHeaders(),
                 'body' => $this->getBody(),
                 'post_files' => $this->getPostFiles(),
                 'post_fields' => $this->getPostFields(),
-            )
+            ]
         );
     }
 
@@ -110,7 +110,7 @@ class Request
         $requestObject = new Request(
             $request['method'],
             $request['url'],
-            isset($request['headers']) ? $request['headers'] : array()
+            $request['headers'] ?? []
         );
 
         if (!empty($request['post_fields']) && is_array($request['post_fields'])) {

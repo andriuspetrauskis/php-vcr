@@ -20,12 +20,12 @@ class StreamProcessor
     /**
      * Constant for a stream which was opened while including a file.
      */
-    const STREAM_OPEN_FOR_INCLUDE = 128;
+    public const STREAM_OPEN_FOR_INCLUDE = 128;
 
     /**
      * Stream protocol which is used when registering this wrapper.
      */
-    const PROTOCOL = 'file';
+    public const PROTOCOL = 'file';
 
     /**
      * @var Configuration
@@ -35,7 +35,7 @@ class StreamProcessor
     /**
      * @var AbstractCodeTransform[] $codeTransformers Transformers which have been appended to this stream processor.
      */
-    protected static $codeTransformers = array();
+    protected static $codeTransformers = [];
 
     /**
      * @var resource|false Resource for the currently opened file.
@@ -173,7 +173,7 @@ class StreamProcessor
     public function stream_open(string $path, string $mode, int $options, ?string &$openedPath): bool
     {
         // file_exists catches paths like /dev/urandom that are missed by is_file.
-        if ('r' === substr($mode, 0, 1) && !file_exists($path)) {
+        if (strpos($mode, 'r') === 0 && !file_exists($path)) {
             return false;
         }
 
@@ -263,13 +263,17 @@ class StreamProcessor
     /**
      * Retrieve information about a file resource.
      *
+     * Do not return the stat since we don't know the resulting the size that the file will have
+     * after having all transformations applied. When including files, PHP 7.4 and newer are sensitive
+     * to file size reported by stat.
+     *
      * @link http://www.php.net/manual/en/streamwrapper.stream-stat.php
      *
      * @return array<int|string, int>|false See stat().
      */
     public function stream_stat()
     {
-        return fstat($this->resource);
+        return [];
     }
 
     /**
@@ -300,7 +304,7 @@ class StreamProcessor
     {
         $this->restore();
         if ($flags & STREAM_URL_STAT_QUIET) {
-            set_error_handler(function () {
+            set_error_handler(static function () {
                 // Use native error handler
                 return false;
             });

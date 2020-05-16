@@ -27,7 +27,7 @@ class HttpClient
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request->getMethod());
         curl_setopt($ch, CURLOPT_HTTPHEADER, HttpUtil::formatHeadersForCurl($request->getHeaders()));
-        if (!is_null($request->getBody())) {
+        if ($request->getBody() !== null) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $request->getBody());
         }
 
@@ -41,7 +41,7 @@ class HttpClient
         if ($result === false) {
             throw CurlException::create($ch);
         }
-        list($status, $headers, $body) = HttpUtil::parseResponse($result);
+        [$status, $headers, $body] = HttpUtil::parseResponse($result);
 
         return new Response(
             HttpUtil::parseStatus($status),

@@ -8,48 +8,44 @@ class BlackholeTest extends TestCase
 {
     protected $storage;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->storage = new Blackhole();
     }
 
-    public function testStoreRecordingIsCallable()
+    public function testStoreRecordingIsCallable(): void
     {
-        $this->assertNull($this->storage->storeRecording(array('empty or not, we don\'t care')));
+        $this->assertNull($this->storage->storeRecording(['empty or not, we don\'t care']));
     }
 
-    public function testNextIsCallable()
+    public function testNextIsCallable(): void
     {
         $this->assertNull($this->storage->next());
     }
 
-    public function testRewindIsCallable()
+    public function testRewindIsCallable(): void
     {
         $this->assertNull($this->storage->rewind());
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
-    public function testKeyIsNotCallable()
+    public function testKeyIsNotCallable(): void
     {
+        $this->expectException(\BadMethodCallException::class);
         $this->storage->key();
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
-    public function testCurrentIsNotCallable()
+    public function testCurrentIsNotCallable(): void
     {
+        $this->expectException(\BadMethodCallException::class);
         $this->storage->current();
     }
 
-    public function testValidIsAlwaysFalse()
+    public function testValidIsAlwaysFalse(): void
     {
         $this->assertFalse($this->storage->valid());
     }
 
-    public function testIsNewIsAlwaysTrue()
+    public function testIsNewIsAlwaysTrue(): void
     {
         $this->assertTrue($this->storage->isNew());
     }

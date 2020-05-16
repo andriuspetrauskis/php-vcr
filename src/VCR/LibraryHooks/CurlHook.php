@@ -29,32 +29,32 @@ class CurlHook implements LibraryHook
     /**
      * @var Request[] All requests which have been intercepted.
      */
-    protected static $requests = array();
+    protected static $requests = [];
 
     /**
      * @var Response[] All responses which have been intercepted.
      */
-    protected static $responses = array();
+    protected static $responses = [];
 
     /**
      * @var array Additinal curl options, which are not stored within a request.
      */
-    protected static $curlOptions = array();
+    protected static $curlOptions = [];
 
     /**
      * @var array All curl handles which belong to curl_multi handles.
      */
-    protected static $multiHandles = array();
+    protected static $multiHandles = [];
 
     /**
      * @var array Last active curl_multi_exec() handles.
      */
-    protected static $multiExecLastChs = array();
+    protected static $multiExecLastChs = [];
 
     /**
      * @var CurlException[] Last cURL error, as a CurlException.
      */
-    protected static $lastErrors = array();
+    protected static $lastErrors = [];
 
     /**
      * @var AbstractCodeTransform
@@ -94,7 +94,7 @@ class CurlHook implements LibraryHook
     {
         Assertion::isCallable($requestCallback, 'No valid callback for handling requests defined.');
 
-        if (static::$status == self::ENABLED) {
+        if (static::$status === self::ENABLED) {
             return;
         }
 
@@ -112,7 +112,7 @@ class CurlHook implements LibraryHook
      */
     public function disable(): void
     {
-        if (static::$status == self::DISABLED) {
+        if (static::$status === self::DISABLED) {
             return;
         }
 
@@ -126,7 +126,7 @@ class CurlHook implements LibraryHook
      */
     public function isEnabled(): bool
     {
-        return self::$status == self::ENABLED;
+        return self::$status === self::ENABLED;
     }
 
     /**
@@ -140,7 +140,7 @@ class CurlHook implements LibraryHook
     public static function __callStatic($method, array $args)
     {
         // Call original when disabled
-        if (static::$status == self::DISABLED) {
+        if (static::$status === self::DISABLED) {
             if ($method === 'curl_multi_exec') {
                 // curl_multi_exec expects to be called with args by reference
                 // which call_user_func_array doesn't do.
@@ -173,7 +173,7 @@ class CurlHook implements LibraryHook
         $curlHandle = \curl_init($url);
         if ($curlHandle !== false) {
             self::$requests[(int) $curlHandle] = new Request('GET', $url);
-            self::$curlOptions[(int) $curlHandle] = array();
+            self::$curlOptions[(int) $curlHandle] = [];
         }
 
         return $curlHandle;
@@ -189,7 +189,7 @@ class CurlHook implements LibraryHook
     {
         \curl_reset($curlHandle);
         self::$requests[(int) $curlHandle] = new Request('GET', null);
-        self::$curlOptions[(int) $curlHandle] = array();
+        self::$curlOptions[(int) $curlHandle] = [];
         unset(self::$responses[(int) $curlHandle]);
     }
 
@@ -234,7 +234,7 @@ class CurlHook implements LibraryHook
     public static function curlMultiAddHandle($multiHandle, $curlHandle): void
     {
         if (!isset(self::$multiHandles[(int) $multiHandle])) {
-            self::$multiHandles[(int) $multiHandle] = array();
+            self::$multiHandles[(int) $multiHandle] = [];
         }
 
         self::$multiHandles[(int) $multiHandle][(int) $curlHandle] = $curlHandle;
@@ -287,11 +287,11 @@ class CurlHook implements LibraryHook
     public static function curlMultiInfoRead()
     {
         if (!empty(self::$multiExecLastChs)) {
-            $info = array(
+            $info = [
                 'msg' => CURLMSG_DONE,
                 'handle' => array_pop(self::$multiExecLastChs),
                 'result' => CURLE_OK
-            );
+            ];
 
             return $info;
         }

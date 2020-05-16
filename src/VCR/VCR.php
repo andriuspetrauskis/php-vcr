@@ -16,17 +16,17 @@ class VCR
     /**
      * Always allow to do HTTP requests and add to the cassette. Default mode.
      */
-    const MODE_NEW_EPISODES = 'new_episodes';
+    public const MODE_NEW_EPISODES = 'new_episodes';
 
     /**
      * Only allow new HTTP requests when the cassette is newly created.
      */
-    const MODE_ONCE = 'once';
+    public const MODE_ONCE = 'once';
 
     /**
      * Treat the fixtures as read only and never allow new HTTP requests.
      */
-    const MODE_NONE = 'none';
+    public const MODE_NONE = 'none';
 
     /**
      * @param string $method
@@ -35,7 +35,7 @@ class VCR
      */
     public static function __callStatic(string $method, array $parameters)
     {
-        $instance = VCRFactory::get('VCR\Videorecorder');
+        $instance = VCRFactory::get(\VCR\Videorecorder::class);
 
         return call_user_func_array(array($instance, $method), $parameters);
     }

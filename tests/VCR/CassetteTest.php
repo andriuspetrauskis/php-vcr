@@ -10,54 +10,53 @@ use PHPUnit\Framework\TestCase;
  */
 class CassetteTest extends TestCase
 {
-
     /**
      * @var Cassette
      */
     private $cassette;
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('test');
         $this->cassette = new Cassette('test', new Configuration(), new Storage\Yaml(vfsStream::url('test/'), 'json_test'));
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
         $this->assertEquals('test', $this->cassette->getName());
     }
 
-    public function testDontOverwriteRecord()
+    public function testDontOverwriteRecord(): void
     {
         $request = new Request('GET', 'https://example.com');
-        $response1 = new Response(200, array(), 'sometest');
-        $response2 = new Response(200, array(), 'sometest');
+        $response1 = new Response(200, [], 'sometest');
+        $response2 = new Response(200, [], 'sometest');
         $this->cassette->record($request, $response1);
         $this->cassette->record($request, $response2);
 
         $this->assertEquals($response1->toArray(), $this->cassette->playback($request)->toArray());
     }
 
-    public function testPlaybackAlreadyRecordedRequest()
+    public function testPlaybackAlreadyRecordedRequest(): void
     {
         $request = new Request('GET', 'https://example.com');
-        $response = new Response(200, array(), 'sometest');
+        $response = new Response(200, [], 'sometest');
         $this->cassette->record($request, $response);
 
         $this->assertEquals($response->toArray(), $this->cassette->playback($request)->toArray());
     }
 
-    public function testHasResponseNotFound()
+    public function testHasResponseNotFound(): void
     {
         $request = new Request('GET', 'https://example.com');
 
         $this->assertFalse($this->cassette->hasResponse($request), 'Expected false if request not found.');
     }
 
-    public function testHasResponseFound()
+    public function testHasResponseFound(): void
     {
         $request = new Request('GET', 'https://example.com');
-        $response = new Response(200, array(), 'sometest');
+        $response = new Response(200, [], 'sometest');
         $this->cassette->record($request, $response);
 
         $this->assertTrue($this->cassette->hasResponse($request), 'Expected true if request was found.');

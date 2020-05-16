@@ -14,15 +14,15 @@ use VCR\Util\CurlException;
  */
 class ErrorTest extends TestCase
 {
-    const TEST_GET_URL = 'http://localhost:9959';
+    private const TEST_GET_URL = 'http://localhost:9959';
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('testDir');
         \VCR\VCR::configure()->setCassettePath(vfsStream::url('testDir'));
     }
 
-    public function testConnectException()
+    public function testConnectException(): void
     {
         $nonInstrumentedException = null;
         try {
@@ -46,7 +46,7 @@ class ErrorTest extends TestCase
         \VCR\VCR::turnOff();
     }
 
-    protected function assertValidGETResponse($info)
+    protected function assertValidGETResponse($info): void
     {
     }
 }
