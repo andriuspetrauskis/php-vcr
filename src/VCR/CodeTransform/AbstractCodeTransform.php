@@ -43,11 +43,15 @@ abstract class AbstractCodeTransform extends \php_user_filter
      */
     public function filter($in, $out, &$consumed, $closing): int
     {
-        while ($bucket = stream_bucket_make_writeable($in)) {
-            $bucket->data = $this->transformCode($bucket->data);
-            $consumed += $bucket->datalen;
-            stream_bucket_append($out, $bucket);
-        }
+        do {
+            /** @var \stdClass|null $bucket */
+            $bucket = stream_bucket_make_writeable($in);
+            if ($bucket !== null) {
+                $bucket->data = $this->transformCode($bucket->data);
+                $consumed += $bucket->datalen;
+                stream_bucket_append($out, $bucket);
+            }
+        } while ($bucket !== null);
 
         return PSFS_PASS_ON;
     }
