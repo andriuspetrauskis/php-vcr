@@ -142,8 +142,11 @@ class Request
     public function setUrl(?string $url): void
     {
         $this->url = $url;
-        if ($url !== null && $this->hasHeader('Host') === false) {
-            $this->setHeader('Host', $this->getHost());
+        if ($url !== null) {
+            $host = $this->getHost();
+            if ($host !== null && $this->hasHeader('Host') === false) {
+                $this->setHeader('Host', $host);
+            }
         }
     }
 
@@ -217,9 +220,6 @@ class Request
         return $this->url;
     }
 
-    /**
-     * @return string
-     */
     public function getHost(): string
     {
         $url = $this->getUrl();
@@ -227,35 +227,48 @@ class Request
 
         $host = parse_url($url, PHP_URL_HOST);
 
-        if ($host === null) {
+        if ($host === null || $host === false) {
             throw InvalidHostException::create($this->getUrl());
         }
 
-        if ($port = parse_url($url, PHP_URL_PORT)) {
+        $port = parse_url($url, PHP_URL_PORT);
+        if ($port !== null && $port !== false) {
             $host .= ':' . $port;
         }
 
         return $host;
     }
 
-    /**
-     * @return string
-     */
     public function getPath(): ?string
     {
         $url = $this->getUrl();
-        Assertion::string($url);
-        return parse_url($url, PHP_URL_PATH);
+        if ($url === null) {
+            return null;
+        }
+
+        $result = parse_url($url, PHP_URL_PATH);
+
+        if ($result === false) {
+            return null;
+        }
+
+        return $result;
     }
 
-    /**
-     * @return string|null
-     */
     public function getQuery(): ?string
     {
         $url = $this->getUrl();
-        Assertion::string($url);
-        return parse_url($url, PHP_URL_QUERY);
+        if ($url === null) {
+            return null;
+        }
+
+        $result = parse_url($url, PHP_URL_QUERY);
+
+        if ($result === false) {
+            return null;
+        }
+
+        return $result;
     }
 
     /**
