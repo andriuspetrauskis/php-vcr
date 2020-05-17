@@ -8,4 +8,4 @@ fix:
 	./vendor/bin/php-cs-fixer fix --verbose --diff --config-file=.php_cs
 
 phpstan:
-	phpstan analyse src -c phpstan.neon --level=7 --no-progress -vvv
+	phpstan analyse src -c phpstan.neon --level=8 --no-progress -vvv
