@@ -263,6 +263,7 @@ class Videorecorder
             $response = $this->client->send($request);
             $this->dispatch(VCREvents::VCR_AFTER_HTTP_REQUEST, new AfterHttpRequestEvent($request, $response));
 
+            Assertion::notNull($this->cassette, 'No cassette inserted');
             $this->dispatch(VCREvents::VCR_BEFORE_RECORD, new BeforeRecordEvent($request, $response, $this->cassette));
             $this->cassette->record($request, $response);
         } finally {
