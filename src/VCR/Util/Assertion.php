@@ -24,7 +24,7 @@ class Assertion extends BaseAssertion
     public static function isCallable($value, $message = null, string $propertyPath = null): bool
     {
         if (! is_callable($value)) {
-            throw new VCRException($message, self::INVALID_CALLABLE, $propertyPath);
+            throw new VCRException($message ?? '', self::INVALID_CALLABLE, $propertyPath);
         }
 
         return true;

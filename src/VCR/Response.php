@@ -56,7 +56,7 @@ class Response
         $body = $this->getBody();
         // Base64 encode when binary
         if ($this->getHeader('Content-Transfer-Encoding') === 'binary' ||
-            strpos($this->getContentType(), 'application/x-gzip') !== false
+            strpos($this->getContentType() ?? '', 'application/x-gzip') !== false
         ) {
             $body = base64_encode($body);
         }
@@ -131,7 +131,7 @@ class Response
      */
     public function getStatusCode(): string
     {
-        return $this->status['code'];
+        return $this->status['code'] ?? '';
     }
 
     public function getContentType(): ?string
@@ -157,7 +157,7 @@ class Response
      */
     public function getStatusMessage(): string
     {
-        return $this->status['message'];
+        return $this->status['message'] ?? '';
     }
 
     /**
