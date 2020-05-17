@@ -10,7 +10,7 @@ use VCR\Util\Assertion;
 class Response
 {
     /**
-     * @var array
+     * @var array<string, string|null>
      */
     protected $status = [
         'code' => null,
@@ -21,10 +21,12 @@ class Response
      * @var array<string,string>
      */
     protected $headers = [];
+
     /**
      * @var string|null
      */
     protected $body;
+
     /**
      * @var array<string,mixed>
      */
@@ -33,7 +35,7 @@ class Response
     protected $httpVersion;
 
     /**
-     * @param string|array $status
+     * @param string|array<string,string|null> $status
      * @param array<string,string> $headers
      * @param string|null $body
      * @param array<string,mixed> $curlInfo

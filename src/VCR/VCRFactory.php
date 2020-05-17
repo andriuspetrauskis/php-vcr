@@ -19,8 +19,14 @@ class VCRFactory
      **/
     protected $config;
 
+    /**
+     * @var object[]
+     */
     protected $mapping = [];
 
+    /**
+     * @var self
+     */
     protected static $instance;
 
     /**

@@ -14,26 +14,32 @@ class Request
      * @var string
      */
     protected $method;
+
     /**
      * @var string|null
      */
     protected $url;
+
     /**
      * @var array<string,string>
      */
     protected $headers = [];
+
     /**
      * @var string|null
      */
     protected $body;
+
     /**
      * @var array<int,array<string,string>>
      */
     protected $postFiles = [];
+
     /**
-     * @var array<string,mixed> $post_fields
+     * @var array<string,mixed>
      */
     protected $postFields = [];
+
     /**
      * @var array<int,mixed>
      */

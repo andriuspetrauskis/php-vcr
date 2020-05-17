@@ -11,7 +11,7 @@ use VCR\Response;
 class CurlHelper
 {
     /**
-     * @var array List of cURL info constants.
+     * @var array<int,string> List of cURL info constants.
      */
     private static $curlInfoList = [
         //"certinfo"?
