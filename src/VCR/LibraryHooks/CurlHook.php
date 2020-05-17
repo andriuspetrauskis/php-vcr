@@ -173,7 +173,7 @@ class CurlHook implements LibraryHook
      */
     public static function curlInit(?string $url = null)
     {
-        $curlHandle = \curl_init($url);
+        $curlHandle = $url === null ? \curl_init() : \curl_init($url);
         if ($curlHandle !== false) {
             self::$requests[(int) $curlHandle] = new Request('GET', $url);
             self::$curlOptions[(int) $curlHandle] = [];
