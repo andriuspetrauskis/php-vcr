@@ -163,7 +163,7 @@ class Response
     }
 
     /**
-     * @param string|array $status
+     * @param string|array<string,string|null> $status
      */
     protected function setStatus($status): void
     {
