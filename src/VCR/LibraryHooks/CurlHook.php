@@ -157,7 +157,10 @@ class CurlHook implements LibraryHook
         }
 
         $localMethod = TextUtil::underscoreToLowerCamelcase($method);
-        return \call_user_func_array(array(__CLASS__, $localMethod), $args);
+        /** @var callable $callback */
+        $callback = [__CLASS__, $localMethod];
+
+        return \call_user_func_array($callback, $args);
     }
 
     /**
