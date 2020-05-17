@@ -136,6 +136,7 @@ class VCRFactory
         }
 
         if (method_exists($this, $this->getMethodName($className))) {
+            /** @var callable $callback */
             $callback = [$this, $this->getMethodName($className)];
             $instance =  call_user_func_array($callback, $params);
         } else {

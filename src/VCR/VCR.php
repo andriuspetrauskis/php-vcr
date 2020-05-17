@@ -35,8 +35,10 @@ class VCR
      */
     public static function __callStatic(string $method, array $parameters)
     {
-        $instance = VCRFactory::get(\VCR\Videorecorder::class);
+        $instance = VCRFactory::get(Videorecorder::class);
+        /** @var callable $callback */
+        $callback = [$instance, $method];
 
-        return call_user_func_array(array($instance, $method), $parameters);
+        return call_user_func_array($callback, $parameters);
     }
 }
