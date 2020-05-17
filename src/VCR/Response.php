@@ -95,7 +95,7 @@ class Response
             $body = base64_decode($response['body']);
         }
 
-        return new static(
+        return new self(
             $response['status'] ?? 200,
             $response['headers'] ?? [],
             $body,
