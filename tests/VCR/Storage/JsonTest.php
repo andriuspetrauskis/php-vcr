@@ -26,7 +26,7 @@ class JsonTest extends TestCase
         $this->iterateAndTest(
             '[{"para1": "val1"}]',
             [
-                ['para1' => 'val1'],
+                new Recording(['para1' => 'val1']),
             ],
             'Single json object was not parsed correctly.'
         );
@@ -37,8 +37,8 @@ class JsonTest extends TestCase
         $this->iterateAndTest(
             '[{"para1": "val1"}, {"para2": "val2"}]',
             [
-                ['para1' => 'val1'],
-                ['para2' => 'val2'],
+                new Recording(['para1' => 'val1']),
+                new Recording(['para2' => 'val2']),
             ],
             'Two json objects were not parsed correctly.'
         );
@@ -49,8 +49,8 @@ class JsonTest extends TestCase
         $this->iterateAndTest(
             '[{"para1": {"para2": "val2"}}, {"para3": "val3"}]',
             [
-                ['para1' => ['para2' => 'val2']],
-                ['para3' => 'val3'],
+                new Recording(['para1' => ['para2' => 'val2']]),
+                new Recording(['para3' => 'val3']),
             ],
             'Nested json objects were not parsed correctly.'
         );
@@ -61,8 +61,8 @@ class JsonTest extends TestCase
         $this->iterateAndTest(
             '[{"para1": "val1"}, {"para2": {"para3": "val3"}}]',
             [
-                ['para1' => 'val1'],
-                ['para2' => ['para3' => 'val3']],
+                new Recording(['para1' => 'val1']),
+                new Recording(['para2' => ['para3' => 'val3']]),
             ],
             'Nested json objects were not parsed correctly.'
         );
@@ -79,12 +79,18 @@ class JsonTest extends TestCase
 
     public function testStoreRecording(): void
     {
-        $expected = [
-            'request' => 'some request',
-            'response' => 'some response'
-        ];
+        $initialRecording = Recording::fromRequestAndResponseArray(
+            [
+                'some request'
+            ],
+            [
+                'some response'
+            ]
+        );
 
-        $this->jsonObject->storeRecording($expected);
+        $expected = $initialRecording;
+
+        $this->jsonObject->storeRecording($initialRecording);
 
         $actual = [];
         foreach ($this->jsonObject as $recording) {
@@ -96,12 +102,12 @@ class JsonTest extends TestCase
 
     public function testValidJson(): void
     {
-        $stored = [
-            'request' => 'some request',
-            'response' => 'some response'
-        ];
-        $this->jsonObject->storeRecording($stored);
-        $this->jsonObject->storeRecording($stored);
+        $request = ['some request'];
+        $response = ['some response'];
+        $recording = Recording::fromRequestAndResponseArray($request, $response);
+
+        $this->jsonObject->storeRecording($recording);
+        $this->jsonObject->storeRecording($recording);
 
         $this->assertJson(file_get_contents($this->filePath));
     }
@@ -112,11 +118,11 @@ class JsonTest extends TestCase
         $filePath = vfsStream::url('test/') . 'blank_file_test';
 
         $jsonObject = new Json(vfsStream::url('test/'), 'blank_file_test');
-        $stored = [
-            'request' => 'some request',
-            'response' => 'some response'
-        ];
-        $jsonObject->storeRecording($stored);
+        $request = ['some request'];
+        $response = ['some response'];
+        $recording = Recording::fromRequestAndResponseArray($request, $response);
+
+        $jsonObject->storeRecording($recording);
 
         $this->assertJson(file_get_contents($filePath));
     }

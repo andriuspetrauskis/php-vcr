@@ -23,7 +23,7 @@ abstract class AbstractStorage implements Storage
     protected $filePath;
 
     /**
-     * @var array|null Current parsed record.
+     * @var Recording|null Current parsed record.
      */
     protected $current;
 
@@ -85,9 +85,9 @@ abstract class AbstractStorage implements Storage
     /**
      * Returns the current record.
      *
-     * @return array|null Parsed current record.
+     * @return Recording|null Parsed current record.
      */
-    public function current(): ?array
+    public function current(): ?Recording
     {
         return $this->current;
     }

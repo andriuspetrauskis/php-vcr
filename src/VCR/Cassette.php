@@ -2,6 +2,7 @@
 
 namespace VCR;
 
+use VCR\Storage\Recording;
 use VCR\Storage\Storage;
 
 /**
@@ -25,7 +26,7 @@ class Cassette
     /**
      * Storage used to store records and request pairs.
      *
-     * @var Storage
+     * @var Storage<Recording>
      */
     protected $storage;
 
@@ -34,7 +35,7 @@ class Cassette
      *
      * @param  string           $name    Name of the cassette.
      * @param  Configuration    $config  Configuration to use for this cassette.
-     * @param  Storage          $storage Storage to use for requests and responses.
+     * @param  Storage<Recording>   $storage Storage to use for requests and responses.
      * @throws \VCR\VCRException If cassette name is in an invalid format.
      */
     public function __construct(string $name, Configuration $config, Storage $storage)
@@ -65,10 +66,11 @@ class Cassette
      */
     public function playback(Request $request): ?Response
     {
+        /** @var Recording $recording */
         foreach ($this->storage as $recording) {
-            $storedRequest = Request::fromArray($recording['request']);
+            $storedRequest = Request::fromArray($recording->getRequest());
             if ($storedRequest->matches($request, $this->getRequestMatchers())) {
-                return Response::fromArray($recording['response']);
+                return Response::fromArray($recording->getResponse());
             }
         }
 
@@ -89,10 +91,7 @@ class Cassette
             return;
         }
 
-        $recording = [
-            'request'  => $request->toArray(),
-            'response' => $response->toArray()
-        ];
+        $recording = Recording::fromRequestAndResponseArray($request->toArray(), $response->toArray());
 
         $this->storage->storeRecording($recording);
     }

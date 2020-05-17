@@ -4,6 +4,7 @@ namespace VCR;
 
 use VCR\LibraryHooks\CurlHook;
 use VCR\LibraryHooks\SoapHook;
+use VCR\Storage\Recording;
 use VCR\Storage\Storage;
 use VCR\Util\StreamProcessor;
 use VCR\Configuration;
@@ -54,6 +55,11 @@ class VCRFactory
         return new StreamProcessor($this->config);
     }
 
+    /**
+     * @param string $cassetteName
+     *
+     * @return Storage<Recording>
+     */
     protected function createStorage(string $cassetteName): Storage
     {
         $dsn = $this->config->getCassettePath();
