@@ -10,7 +10,7 @@ use VCR\Util\Assertion;
 class Response
 {
     /**
-     * @var array
+     * @var array<string, string|null>
      */
     protected $status = [
         'code' => null,
@@ -21,19 +21,24 @@ class Response
      * @var array<string,string>
      */
     protected $headers = [];
+
     /**
      * @var string|null
      */
     protected $body;
+
     /**
      * @var array<string,mixed>
      */
     protected $curlInfo = [];
 
-    protected $httpVersion;
+    /**
+     * @var string
+     */
+    protected $httpVersion = '1.1';
 
     /**
-     * @param string|array $status
+     * @param string|array<string,string|null> $status
      * @param array<string,string> $headers
      * @param string|null $body
      * @param array<string,mixed> $curlInfo
@@ -56,7 +61,7 @@ class Response
         $body = $this->getBody();
         // Base64 encode when binary
         if ($this->getHeader('Content-Transfer-Encoding') === 'binary' ||
-            strpos($this->getContentType(), 'application/x-gzip') !== false
+            strpos($this->getContentType() ?? '', 'application/x-gzip') !== false
         ) {
             $body = base64_encode($body);
         }
@@ -90,7 +95,7 @@ class Response
             $body = base64_decode($response['body']);
         }
 
-        return new static(
+        return new self(
             $response['status'] ?? 200,
             $response['headers'] ?? [],
             $body,
@@ -131,7 +136,7 @@ class Response
      */
     public function getStatusCode(): string
     {
-        return $this->status['code'];
+        return $this->status['code'] ?? '';
     }
 
     public function getContentType(): ?string
@@ -144,10 +149,7 @@ class Response
         return $this->headers[$key] ?? null;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHttpVersion()
+    public function getHttpVersion(): string
     {
         return $this->httpVersion;
     }
@@ -157,11 +159,11 @@ class Response
      */
     public function getStatusMessage(): string
     {
-        return $this->status['message'];
+        return $this->status['message'] ?? '';
     }
 
     /**
-     * @param string|array $status
+     * @param string|array<string,string|null> $status
      */
     protected function setStatus($status): void
     {

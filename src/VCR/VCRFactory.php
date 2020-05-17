@@ -4,6 +4,7 @@ namespace VCR;
 
 use VCR\LibraryHooks\CurlHook;
 use VCR\LibraryHooks\SoapHook;
+use VCR\Storage\Recording;
 use VCR\Storage\Storage;
 use VCR\Util\StreamProcessor;
 use VCR\Configuration;
@@ -18,8 +19,14 @@ class VCRFactory
      **/
     protected $config;
 
+    /**
+     * @var object[]
+     */
     protected $mapping = [];
 
+    /**
+     * @var self
+     */
     protected static $instance;
 
     /**
@@ -54,6 +61,11 @@ class VCRFactory
         return new StreamProcessor($this->config);
     }
 
+    /**
+     * @param string $cassetteName
+     *
+     * @return Storage<Recording>
+     */
     protected function createStorage(string $cassetteName): Storage
     {
         $dsn = $this->config->getCassettePath();
@@ -87,7 +99,7 @@ class VCRFactory
      */
     public static function getInstance(Configuration $config = null): self
     {
-        if (!self::$instance) {
+        if (self::$instance === null) {
             self::$instance = new self($config);
         }
 
@@ -124,6 +136,7 @@ class VCRFactory
         }
 
         if (method_exists($this, $this->getMethodName($className))) {
+            /** @var callable $callback */
             $callback = [$this, $this->getMethodName($className)];
             $instance =  call_user_func_array($callback, $params);
         } else {

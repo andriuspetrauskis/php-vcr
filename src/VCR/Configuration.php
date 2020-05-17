@@ -31,7 +31,7 @@ class Configuration
      * A value of null means all hooks are enabled.
      *
      * @see \VCR\LibraryHooks\LibraryHook
-     * @var array|null List of enabled LibraryHook names.
+     * @var string[]|null List of enabled LibraryHook names.
      */
     private $enabledLibraryHooks;
 
@@ -79,7 +79,7 @@ class Configuration
     /**
      * A value of null means all RequestMatchers are enabled.
      *
-     * @var array Names of the RequestMatchers which are enabled.
+     * @var string[] Names of the RequestMatchers which are enabled.
      */
     private $enabledRequestMatchers;
 
@@ -142,7 +142,7 @@ class Configuration
      *  'name'
      * ]
      *
-     * @var array List of available modes.
+     * @var string[] List of available modes.
      */
     private $availableModes = [
         VCR::MODE_NEW_EPISODES,
@@ -338,7 +338,7 @@ class Configuration
     /**
      * Sets a list of paths to whitelist when processing in the StreamProcessor.
      *
-     * @param string|array $paths Single path or list of path which are whitelisted.
+     * @param string|string[] $paths Single path or list of path which are whitelisted.
      *
      * @return Configuration
      */

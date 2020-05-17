@@ -9,7 +9,12 @@ class VCRException extends InvalidArgumentException
     public const LIBRARY_HOOK_DISABLED = 500;
     public const REQUEST_ERROR = 600;
 
-    public function __construct($message, $code, $propertyPath = null, $value = null, array $constraints = [])
+    /**
+     * @inheritDoc
+     * @param mixed $value
+     * @param array<mixed> $constraints
+     */
+    public function __construct(string $message, int $code, string $propertyPath = null, $value = null, array $constraints = [])
     {
         parent::__construct($message, $code, $propertyPath, $value, $constraints);
     }

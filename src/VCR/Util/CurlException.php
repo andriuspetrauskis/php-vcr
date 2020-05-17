@@ -4,7 +4,10 @@ namespace VCR\Util;
 
 class CurlException extends \Exception
 {
-    private $info;
+    /**
+     * @var array<string,mixed>
+     */
+    private $info = [];
 
     /**
      * @param resource $ch The cURL handler

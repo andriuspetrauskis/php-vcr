@@ -13,7 +13,7 @@ class Json extends AbstractStorage
     /**
      * @inheritDoc
      */
-    public function storeRecording(array $recording): void
+    public function storeRecording(Recording $recording): void
     {
         fseek($this->handle, -1, SEEK_END);
         if (ftell($this->handle) > 2) {
@@ -35,7 +35,10 @@ class Json extends AbstractStorage
      */
     public function next(): void
     {
-        $this->current = json_decode($this->readNextRecord(), true);
+        $result = json_decode($this->readNextRecord(), true);
+        if (is_array($result)) {
+            $this->current = new Recording($result);
+        }
         ++$this->position;
     }
 

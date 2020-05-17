@@ -8,11 +8,17 @@ class SoapCodeTransform extends AbstractCodeTransform
 {
     public const NAME = 'vcr_soap';
 
+    /**
+     * @var string[]
+     */
     private static $replacements = [
         'new \VCR\Util\SoapClient(',
         'extends \VCR\Util\SoapClient',
     ];
 
+    /**
+     * @var string[]
+     */
     private static $patterns = [
         '@new\s+\\\?SoapClient\W*\(@i',
         '@extends\s+\\\?SoapClient@i',

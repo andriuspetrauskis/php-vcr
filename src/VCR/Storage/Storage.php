@@ -7,16 +7,12 @@ namespace VCR\Storage;
  *
  * A Storage can be iterated using standard loops.
  * New recordings can be stored.
+ *
+ * @extends \Iterator<Recording>
  */
 interface Storage extends \Iterator
 {
-    /**
-     * Stores an array of data.
-     *
-     * @param array<string,array<string,mixed>> $recording Array to store in storage.
-     * @return void
-     */
-    public function storeRecording(array $recording): void;
+    public function storeRecording(Recording $recording): void;
 
     /**
      * Returns true if the file did not exist and had to be created.

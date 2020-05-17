@@ -26,7 +26,7 @@ class YamlTest extends TestCase
             '-' . "\n"
             . '    para1: val1',
             [
-                ['para1' => 'val1'],
+                new Recording(['para1' => 'val1']),
             ],
             'Single yaml object was not parsed correctly.'
         );
@@ -40,8 +40,8 @@ class YamlTest extends TestCase
             . '-' . "\n"
             . '   para2: val2',
             [
-                ['para1' => 'val1'],
-                ['para2' => 'val2'],
+                new Recording(['para1' => 'val1']),
+                new Recording(['para2' => 'val2']),
             ],
             'Two yaml objects were not parsed correctly.'
         );
@@ -56,8 +56,8 @@ class YamlTest extends TestCase
             . '-' . "\n"
             . '    para3: val3',
             [
-                ['para1' => ['para2' => 'val2']],
-                ['para3' => 'val3'],
+                new Recording(['para1' => ['para2' => 'val2']]),
+                new Recording(['para3' => 'val3']),
             ],
             'Nested yaml objects were not parsed correctly.'
         );
@@ -72,8 +72,8 @@ class YamlTest extends TestCase
             . '    para2:' . "\n"
             . '        para3: val3' . "\n",
             [
-                ['para1' => 'val1'],
-                ['para2' => ['para3' => 'val3']],
+                new Recording(['para1' => 'val1']),
+                new Recording(['para2' => ['para3' => 'val3']]),
             ],
             'Nested yaml objects were not parsed correctly.'
         );
@@ -90,12 +90,12 @@ class YamlTest extends TestCase
 
     public function testStoreRecording(): void
     {
-        $expected = [
-            'request' => 'some request',
-            'response' => 'some response'
-        ];
+        $request = ['some request'];
+        $response = ['some response'];
+        $recording = Recording::fromRequestAndResponseArray($request, $response);
+        $expected = $recording;
 
-        $this->yamlObject->storeRecording($expected);
+        $this->yamlObject->storeRecording($recording);
 
         $actual = [];
         foreach ($this->yamlObject as $recording) {
@@ -107,13 +107,13 @@ class YamlTest extends TestCase
 
     public function testStoreTwoRecording(): void
     {
-        $expected = [
-            'request'  => ['headers' => ['Content-Type' => 'application/json']],
-            'response' => ['body' => 'ok', 'status' => 200]
-        ];
+        $request = ['headers' => ['Content-Type' => 'application/json']];
+        $response = ['body' => 'ok', 'status' => 200];
+        $recording = Recording::fromRequestAndResponseArray($request, $response);
+        $expected = $recording;
 
-        $this->yamlObject->storeRecording($expected);
-        $this->yamlObject->storeRecording($expected);
+        $this->yamlObject->storeRecording($recording);
+        $this->yamlObject->storeRecording($recording);
 
         $actual = [];
         foreach ($this->yamlObject as $recording) {

@@ -42,10 +42,10 @@ class Yaml extends AbstractStorage
     /**
      * @inheritDoc
      */
-    public function storeRecording(array $recording): void
+    public function storeRecording(Recording $recording): void
     {
         fseek($this->handle, -1, SEEK_END);
-        fwrite($this->handle, "\n" . $this->yamlDumper->dump(array($recording), 4));
+        fwrite($this->handle, "\n" . $this->yamlDumper->dump([$recording->toArray()], 4));
         fflush($this->handle);
     }
 
@@ -57,7 +57,9 @@ class Yaml extends AbstractStorage
     public function next(): void
     {
         $recording = $this->yamlParser->parse($this->readNextRecord());
-        $this->current = $recording[0] ?? null;
+        if (isset($recording[0])) {
+            $this->current = new Recording($recording[0]);
+        }
         ++$this->position;
     }
 

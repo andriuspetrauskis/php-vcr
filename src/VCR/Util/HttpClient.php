@@ -21,7 +21,8 @@ class HttpClient
      */
     public function send(Request $request): Response
     {
-        $ch = curl_init($request->getUrl());
+        $url = $request->getUrl();
+        $ch = $url === null ? curl_init() : curl_init($url);
 
         Assertion::isResource($ch, "Could not init curl with URL '{$request->getUrl()}'");
 
@@ -40,6 +41,9 @@ class HttpClient
         $result = curl_exec($ch);
         if ($result === false) {
             throw CurlException::create($ch);
+        }
+        if ($result === true) {
+            throw new \RuntimeException('CURLOPT_RETURNTRANSFER option must be set to true');
         }
         [$status, $headers, $body] = HttpUtil::parseResponse($result);
 

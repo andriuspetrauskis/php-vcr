@@ -7,16 +7,10 @@ namespace VCR\Storage;
  */
 class Blackhole implements Storage
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function storeRecording(array $recording): void
+    public function storeRecording(Recording $recording): void
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function isNew(): bool
     {
         return true;

@@ -50,8 +50,12 @@ class HttpUtil
 
         $part = explode(' ', $status, 3);
 
+        // We can assume version is always HTTP/$VERSION because of check above
+        $version = substr($part[0], 5);
+        \Assert\Assertion::string($version);
+
         return [
-            'http_version' => substr(strrchr($part[0], '/'), 1),
+            'http_version' => $version,
             'code' => $part[1],
             'message' => $part[2] ?? ''
         ];

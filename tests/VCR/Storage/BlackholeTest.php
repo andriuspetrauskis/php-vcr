@@ -15,7 +15,7 @@ class BlackholeTest extends TestCase
 
     public function testStoreRecordingIsCallable(): void
     {
-        $this->assertNull($this->storage->storeRecording(['empty or not, we don\'t care']));
+        $this->assertNull($this->storage->storeRecording(new Recording([])));
     }
 
     public function testNextIsCallable(): void
