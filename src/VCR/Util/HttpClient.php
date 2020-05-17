@@ -42,6 +42,9 @@ class HttpClient
         if ($result === false) {
             throw CurlException::create($ch);
         }
+        if ($result === true) {
+            throw new \RuntimeException('CURLOPT_RETURNTRANSFER option must be set to true');
+        }
         [$status, $headers, $body] = HttpUtil::parseResponse($result);
 
         return new Response(
