@@ -32,7 +32,10 @@ class Response
      */
     protected $curlInfo = [];
 
-    protected $httpVersion;
+    /**
+     * @var string
+     */
+    protected $httpVersion = '1.1';
 
     /**
      * @param string|array<string,string|null> $status
@@ -146,10 +149,7 @@ class Response
         return $this->headers[$key] ?? null;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHttpVersion()
+    public function getHttpVersion(): string
     {
         return $this->httpVersion;
     }
