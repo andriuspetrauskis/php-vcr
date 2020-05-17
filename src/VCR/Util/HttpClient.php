@@ -21,7 +21,8 @@ class HttpClient
      */
     public function send(Request $request): Response
     {
-        $ch = curl_init($request->getUrl());
+        $url = $request->getUrl();
+        $ch = $url === null ? curl_init() : curl_init($url);
 
         Assertion::isResource($ch, "Could not init curl with URL '{$request->getUrl()}'");
 
