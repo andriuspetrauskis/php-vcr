@@ -99,7 +99,7 @@ class VCRFactory
      */
     public static function getInstance(Configuration $config = null): self
     {
-        if (!self::$instance) {
+        if (self::$instance === null) {
             self::$instance = new self($config);
         }
 
