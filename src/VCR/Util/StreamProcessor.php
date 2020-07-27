@@ -54,6 +54,11 @@ class StreamProcessor
     protected $isIntercepting = false;
 
     /**
+     * @var string
+     */
+    private $path;
+
+    /**
      *
      * @param Configuration $configuration
      */
@@ -272,7 +277,11 @@ class StreamProcessor
      */
     public function stream_stat()
     {
-        return false;
+        if ($this->shouldProcess($this->path)) {
+            return false;
+        }
+
+        return fstat($this->resource);
     }
 
     /**
@@ -343,6 +352,7 @@ class StreamProcessor
     public function dir_opendir($path)
     {
         $this->restore();
+        $this->path = $path;
         if (isset($this->context)) {
             $this->resource = opendir($path, $this->context);
         } else {
